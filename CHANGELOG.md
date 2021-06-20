@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.0
+* Updates to Craft 3.6.17 / Embedded Assets 2.7.0
+* Updates Alpine JS to 3.0
+* Updates Tailwind CSS to 2.2
+
 ## 1.8.0
 * Updates to Craft 3.6.14 / Embedded Assets 2.6.1
 * Added alt text field for images
