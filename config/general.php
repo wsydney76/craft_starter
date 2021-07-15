@@ -49,7 +49,7 @@ return [
         'maxRevisions' => 10,
 
         // Whether drafts should be saved automatically as they are edited.
-        'autosaveDrafts' => false,
+        'autosaveDrafts' => true,
 
         // Whether uploaded filenames with non-ASCII characters should be converted to ASCII
         'convertFilenamesToAscii' => true,
