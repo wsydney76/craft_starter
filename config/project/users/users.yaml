@@ -1,5 +1,7 @@
 allowPublicRegistration: true
 defaultGroup: 3909f133-d7ce-407e-820a-56c4e5047589
+fieldLayouts:
+  4a59e81b-7fdc-4f97-98ff-52d2b79e229f: null
 photoSubpath: '{username}'
 photoVolumeUid: 99cbe848-2d62-42d0-ad15-948062a7561f # User Photos
 requireEmailVerification: true

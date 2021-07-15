@@ -24,7 +24,6 @@ class m200501_120937_elementindexes_settings extends Migration
             $s[$section->handle] = 'section:' . $section->uid;
         }
 
-
         $f = [];
         $fields = Craft::$app->fields->getAllFields();
         foreach ($fields as $field) {
@@ -45,13 +44,12 @@ class m200501_120937_elementindexes_settings extends Migration
             'sources' => [
                 '*' => ['tableAttributes' => ['section', 'postDate', 'link']],
                 'singles' => ['tableAttributes' => ['drafts', $f['featuredImage'], 'link']],
-                $s['page'] => ['tableAttributes' => ['drafts', $f['featuredImage'], $f['teaser'], 'postDate', 'link']],
-                $s['post'] => ['tableAttributes' => ['drafts', $f['featuredImage'], $f['teaser'], 'author', 'postDate', 'link']],
+                $s['page'] => ['tableAttributes' => ['drafts', 'hasProvisionalDraft', $f['featuredImage'], $f['teaser'], 'postDate', 'link']],
+                $s['post'] => ['tableAttributes' => ['drafts', 'hasProvisionalDraft', $f['featuredImage'], $f['teaser'], 'author', 'postDate', 'link']],
                 $s['topic'] => ['tableAttributes' => ['drafts', $f['featuredImage'], $f['teaser'], 'author', 'postDate', 'link']]
 
             ]
         ];
-
 
         Craft::$app->elementIndexes->saveSettings('craft\\elements\\Entry', $entrySettings);
     }

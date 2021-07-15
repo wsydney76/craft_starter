@@ -1,9 +1,9 @@
 <?php
 return [
-    'msg_draftwarningone' => 'Konkurrierender Entwurf:',
-    'msg_draftwarningmultiple' => 'Konkurrierende Entwürfe:',
-    'msg_provisionaldraftwarningone' => 'Konkurrierende Bearbeitung:',
-    'msg_provisionaldraftwarningmultiple' => 'Konkurrierende Bearbeitungen',
+    'msg_draftwarningone' => 'Offene Entwurf:',
+    'msg_draftwarningmultiple' => 'Offene Entwürfe:',
+    'msg_provisionaldraftwarningone' => 'Offene Bearbeitung:',
+    'msg_provisionaldraftwarningmultiple' => 'Offene Bearbeitungen',
 
     'Draft Name' => 'Entwurfsname',
     'Draft Notes' => 'Entwurfsnotizen',

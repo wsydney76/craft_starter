@@ -1,6 +1,6 @@
 assets:
   tempVolumeUid: 35c3b3f5-30e7-4780-9ae1-286ee8bd275e # Temporary Uploads
-dateModified: 1626342579
+dateModified: 1626362365
 email:
   fromEmail: $EMAIL_ADDRESS
   fromName: $EMAIL_SENDER
@@ -30,7 +30,6 @@ meta:
     3ef62a7b-6c6d-470f-88a6-31de5a099b38: Teaser # Teaser
     3f9c2f2a-8ab0-4aba-bf4e-02d5336d14c0: Copyright # Copyright
     4d466365-d4d6-4da1-b35a-009a6fca474c: 'Public Schema' # Public Schema
-    5d1e7a8c-bdb7-48c9-b9a8-9ab55c900868: Users # Users
     6c2c7c89-c2ff-4ace-a3e6-aeddab27ab7b: Documents # Documents
     6e85df5a-9848-47e6-98f8-728b28c8f205: Gallery # Gallery
     7a11b052-f8c9-46d7-8bb4-7c9a3916200c: Image # Image
@@ -67,7 +66,6 @@ meta:
     5376aba9-df1d-4ebf-b6d2-927c147e0f0c: 'Site Info' # Site Info
     8136d7e9-1a74-464d-aef2-3a4f91a5cdda: Images # Images
     29984fa1-b01d-42e8-80e8-6983cc5a498c: Entries # Entries
-    0929020c-32b9-4c07-b046-d314e04e7a1d: 'Disable Draft Hints' # Disable Draft Hints
     9824416f-f0bf-481a-91dc-b14b70dfab25: Photo # Photo
     a6c330ac-aa61-44e4-a5fe-61b35e4eeb36: Display # Display
     a6d13a9f-d4ed-41e5-be7f-c93dcb679633: Text # Text

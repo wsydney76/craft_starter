@@ -5,16 +5,11 @@ namespace modules\drafts;
 use Craft;
 use craft\base\Element;
 use craft\elements\Entry;
-use craft\elements\User;
-use craft\events\DefineFieldLayoutElementsEvent;
 use craft\events\RegisterElementTableAttributesEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\SetElementTableAttributeHtmlEvent;
-use craft\helpers\ElementHelper;
 use craft\i18n\PhpMessageSource;
-use craft\models\FieldLayout;
 use craft\web\View;
-use modules\drafts\fieldlayoutelements\DraftWarning;
 use yii\base\Event;
 use yii\base\Module;
 
@@ -39,16 +34,6 @@ class DraftsModule extends Module
         }
         );
 
-        // Add Drafts Warning to UI Elements
-        Event::on(
-            FieldLayout::class,
-            FieldLayout::EVENT_DEFINE_UI_ELEMENTS, function(DefineFieldLayoutElementsEvent $event) {
-            if ($event->sender->type == 'craft\\elements\\Entry') {
-                $event->elements[] = new DraftWarning();
-            }
-        }
-        );
-
         // Register translation category
         Craft::$app->i18n->translations['drafts'] = [
             'class' => PhpMessageSource::class,
@@ -59,17 +44,18 @@ class DraftsModule extends Module
 
         // Inject template into entries edit screen
         $user = Craft::$app->user->identity;
-        if ($user && !$user->disableDraftHints) {
+        if ($user) {
             Craft::$app->view->hook('cp.entries.edit.meta', function(array $context) {
                 if ($context['entry'] === null) {
                     return '';
                 }
                 return Craft::$app->view->renderTemplate(
-                    'drafts/entries_edit_details',
-                    ['context' => $context]);
+                    'drafts/draft_hints',
+                    ['entry' => $context['entry']]);
             });
         }
 
+        // Register element index column
         Event::on(
             Entry::class,
             Element::EVENT_REGISTER_TABLE_ATTRIBUTES, function(RegisterElementTableAttributesEvent $event) {
@@ -89,6 +75,7 @@ class DraftsModule extends Module
                     ->draftOf($entry)
                     ->provisionalDrafts(true)
                     ->draftCreator(Craft::$app->user->identity)
+                    ->site('*')
                     ->exists();
                 if ($hasProvisionalDraft) {
                     $event->html = '<span class="status active"></span>';

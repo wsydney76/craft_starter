@@ -1,0 +1,104 @@
+{% set draftPermission = 'editpeerentrydrafts:' ~ entry.section.uid %}
+
+{# Show existing drafts --------------------------------------------------------------------- #}
+
+{% set query = craft.entries
+    .draftOf(entry.canonical)
+    .site('*')
+    .unique()
+    .preferSites([entry.site.handle])
+    .orderBy('dateUpdated desc')
+%}
+
+{% if entry.isDraft %}
+    {% set query = query.id("not #{entry.id}") %}
+{% endif %}
+
+{% set drafts = query.all %}
+{% if drafts %}
+
+    {% set textOne = 'msg_draftwarningone'|t('drafts') %}
+    {% set textMultiple = 'msg_draftwarningmultiple'|t('drafts') %}
+
+    <div class="meta read-only warning">
+        <p>{{ drafts|length == 1 ? textOne : textMultiple }}</p>
+        <div class="flex flex-wrap">
+            {% for draft in drafts %}
+                {% set canEdit = (draft.creatorId == currentUser.id or currentUser.can(draftPermission)) %}
+                {% if canEdit %}
+                    {{ tag('a', {
+                        class: ['btn', 'drafts-warning'],
+                        title: draft.draftName,
+                        href: "#{ draft.cpEditUrl }&draftId=#{ draft.draftId }",
+                        text: "#{'Edit'|t('drafts')}: #{draft.draftName}"
+                    }) }}
+                {% else %}
+                    {% set user = craft.users.id(draft.creatorId).one %}
+                    {{ tag('span', {
+                        class: ['btn', 'drafts-warning', 'drafts-noteditable'],
+                        title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
+                        href: "#{ draft.cpEditUrl }&draftId=#{ draft.draftId }",
+                        text: "#{draft.draftName}"
+                    }) }}
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endif %}
+
+
+{# Show existing provisional drafts --------------------------------------------------------------------- #}
+
+{% set query = craft.entries
+    .draftOf(entry.canonical)
+    .provisionalDrafts(true)
+    .id("not #{entry.id}")
+    .site('*')
+    .unique()
+    .preferSites([entry.site.handle])
+    .orderBy('dateUpdated desc')
+%}
+
+{% set drafts = query.all %}
+{% if drafts %}
+
+    {% set textOne = 'msg_provisionaldraftwarningone'|t('drafts') %}
+    {% set textMultiple = 'msg_provisionaldraftwarningmultiple'|t('drafts') %}
+
+    <div class="meta read-only warning">
+        <p>{{ drafts|length == 1 ? textOne : textMultiple }}</p>
+        <div class="flex flex-wrap">
+            {% for draft in drafts %}
+                {% set user = craft.users.id(draft.creatorId).one %}
+                {% if user %}
+                    {{ tag('span', {
+                        class: ['btn', 'drafts-warning', 'drafts-noteditable'],
+                        title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
+                        href: "#{ draft.cpEditUrl }&draftId=#{ draft.draftId }",
+                        text: "#{user.fullName} #{draft.dateUpdated|date}"
+                    }) }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endif %}
+
+<div class="meta read-only warning" id="draft-new" style="display:none">
+    {{ 'msg_newdraft'|t('drafts') }}: <b><span id="draft-name"></span></b>
+</div>
+
+{% css %}
+.drafts-warning {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.drafts-noteditable {
+    background-color: #EBF2FA !important;
+}
+{% endcss %}

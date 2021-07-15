@@ -1,7 +1,7 @@
 <?php
 return [
-    'msg_draftwarningone' => 'Conflicting draft:',
-    'msg_draftwarningmultiple' => 'Conflicting drafts:',
-    'msg_provisionaldraftwarningone' => 'Conflicting edit:',
-    'msg_provisionaldraftwarningmultiple' => 'Conflicting edits:',
+    'msg_draftwarningone' => 'Open draft:',
+    'msg_draftwarningmultiple' => 'Open drafts:',
+    'msg_provisionaldraftwarningone' => 'Open edit:',
+    'msg_provisionaldraftwarningmultiple' => 'Open edits:',
 ];
