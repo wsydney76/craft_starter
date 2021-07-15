@@ -60,7 +60,7 @@ class DraftsModule extends Module
         // Inject template into entries edit screen
         $user = Craft::$app->user->identity;
         if ($user && !$user->disableDraftHints) {
-            Craft::$app->view->hook('cp.entries.edit.details', function(array $context) {
+            Craft::$app->view->hook('cp.entries.edit.meta', function(array $context) {
                 if ($context['entry'] === null) {
                     return '';
                 }
@@ -73,34 +73,26 @@ class DraftsModule extends Module
         Event::on(
             Entry::class,
             Element::EVENT_REGISTER_TABLE_ATTRIBUTES, function(RegisterElementTableAttributesEvent $event) {
-            $event->tableAttributes['draftNotes'] = ['label' => Craft::t('drafts', 'Draft Notes')];
-            $event->tableAttributes['creatorId'] = ['label' => Craft::t('drafts', 'Draft Creator')];
+            $event->tableAttributes['hasProvisionalDraft'] = ['label' => Craft::t('drafts', 'Edited')];
         }
         );
         Event::on(
             Entry::class,
             Element::EVENT_SET_TABLE_ATTRIBUTE_HTML, function(SetElementTableAttributeHtmlEvent $event) {
 
-            if ($event->attribute == 'creatorId') {
+            if ($event->attribute == 'hasProvisionalDraft') {
                 $event->handled = true;
                 /** @var Entry $entry */
                 $entry = $event->sender;
-
-                if (ElementHelper::isDraftOrRevision($entry)) {
-                    /** @var User $user */
-                    $user = User::find()->id($entry->creatorId)->one();
-                    $event->html = $user ? $user->name : '';
-                } else {
-                    $event->html = '';
+                $event->html = '';
+                $hasProvisionalDraft = Entry::find()
+                    ->draftOf($entry)
+                    ->provisionalDrafts(true)
+                    ->draftCreator(Craft::$app->user->identity)
+                    ->exists();
+                if ($hasProvisionalDraft) {
+                    $event->html = '<span class="status active"></span>';
                 }
-            }
-
-            if ($event->attribute == 'draftNotes') {
-                $event->handled = true;
-                /** @var Entry $entry */
-                $entry = $event->sender;
-
-                $event->html = ElementHelper::isDraftOrRevision($entry) ? $entry->draftNotes : '';
             }
         }
         );

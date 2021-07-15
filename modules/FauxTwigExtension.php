@@ -60,7 +60,8 @@ class FauxTwigExtension extends AbstractExtension implements GlobalsInterface
             'image' => new Asset(),
             'category' => new Category(),
             'tag' => new Tag(),
-            'entry' => new Entry(),
+            'entry' => new CustomEntry(),
+            'draft' => new CustomEntry(),
             'siteInfo' => new GlobalSet(),
             'siteNavigation' => new GlobalSet(),
             // Misc. Craft globals

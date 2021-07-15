@@ -26,6 +26,7 @@ fieldLayouts:
         sortOrder: 1
 fields:
   91e82c8e-91b5-456d-a06b-bd9e86bb5059: # Entries
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: entries
@@ -47,6 +48,7 @@ fields:
     translationMethod: site
     type: craft\fields\Entries
   c6943610-b0b4-4588-88b9-c13480f83557: # Caption
+    columnSuffix: null
     contentColumnType: string(120)
     fieldGroup: null
     handle: caption

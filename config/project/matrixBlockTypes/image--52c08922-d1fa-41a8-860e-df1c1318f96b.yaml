@@ -35,6 +35,7 @@ fieldLayouts:
         sortOrder: 1
 fields:
   7a11b052-f8c9-46d7-8bb4-7c9a3916200c: # Image
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: image
@@ -69,6 +70,7 @@ fields:
     translationMethod: site
     type: craft\fields\Assets
   a6c330ac-aa61-44e4-a5fe-61b35e4eeb36: # Display
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: display
@@ -126,6 +128,7 @@ fields:
     translationMethod: none
     type: craft\fields\Dropdown
   d80ee1f4-e752-4e38-860a-c5f26790bf89: # Caption
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: caption
