@@ -142,8 +142,14 @@ function compare(url) {
     background-color: #EBF2FA !important;
 }
 
+
 .field-diff {
     margin-bottom: 36px;
+}
+
+.compare-container > .field-diff {
+    padding-top: 8px;
+    border-top: 1px solid #cccccc;
 }
 
 .field-diff-level-2 {
@@ -169,10 +175,14 @@ function compare(url) {
     margin-top: 12px;
     margin-bottom: 12px;
     margin-left: 12px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .field-diff .matrixblock > .titlebar {
     padding-left: 14px !important;
+    padding-right: 14px !important;
 }
 
 .matrixblock > .titlebar.field-diff-new {

@@ -69,9 +69,13 @@
                     {% set isNew = block2.id == block.id %}
                     <div class="matrixblock field-diff-block">
                         <div class="titlebar field-diff-blockname {{ isNew ? 'field-diff-new' }}">
-                            {{ block.type.name }}<br/>
-                            {{ 'Order'|t('drafts') }}: {{ 'Draft'|t('drafts') }}: {{ block.sortOrder }} /
-                            {{ 'Current'|t('drafts') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
+                            <div>
+                                {{ block.type.name }}
+                            </div>
+                            <div>
+                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t('drafts') }}: {{ block.sortOrder }} /
+                                {{ 'Current'|t('drafts') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
+                            </div>
                         </div>
 
                         {% if isNew %}
@@ -89,17 +93,26 @@
                     {% if block.canonicalId not in currentBlockIds %}
                         <div class="matrixblock field-diff-block">
                             <div class="titlebar field-diff-blockname field-diff-deleted">
-                                {{ 'Type'|t('drafts') }}: {{ block.type.name }}<br/>
-                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
-                                / {{ 'Deleted'|t('drafts') }}
+                                <div>
+                                    {{ 'Type'|t('drafts') }}: {{ block.type.name }}
+                                </div>
+                                <div>
+                                    {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
+                                    / {{ 'Deleted'|t('drafts') }}
+                                </div>
                             </div>
                             {{ _self.blockContent(block) }}
                         </div>
                     {% endif %}
                 {% endfor %}
 
-            {% elseif not className(field) starts with "craft" %}
-                {{ className(field) }} not impemented
+            {% elseif not (className(field) starts with "craft") %}
+                {# This template should import and use the attrDiff macro #}
+                {% set template = className(field)|replace({'\\':'_'}) %}
+                {% include ["drafts/fields/#{template}", "drafts/fields/unknown"] with {
+                    field, value, value2
+                } only %}
+
             {% else %}
                 {{ _self.valueDiff(field, value, value2) }}
             {% endif %}
@@ -183,7 +196,7 @@
     {% case "craft\\fields\\Table" %}
 
         {% for row in value %}
-        	<h3>Row {{ loop.index }}</h3>
+            <h3>Row {{ loop.index }}</h3>
             {% for col in field.columns %}
                 {{ col.heading }}: {{ col.type == 'date' ? row[col.handle]|date : row[col.handle] }}<br>
             {% endfor %}
