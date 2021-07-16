@@ -5,11 +5,17 @@ return [
     'msg_provisionaldraftwarningone' => 'Offene Bearbeitung:',
     'msg_provisionaldraftwarningmultiple' => 'Offene Bearbeitungen',
 
-    'Draft Name' => 'Entwurfsname',
-    'Draft Notes' => 'Entwurfsnotizen',
-    'Draft Creator' => 'Entwurf erstellt von',
-    'Has Drafts' => 'Hat Entwürfe',
-    'All drafts' => 'Alle Entwürfe',
-    'Edited' => 'Bearbeitet'
+    'Compare with current' => 'Mit aktueller Version vergleichen',
+    'Current' => 'Aktuell',
+    'Deleted' => 'Gelöscht',
+    'Draft created by' => 'Entwurf erstellt von',
+    'Draft' => 'Entwurf',
+    'Edit' => 'Bearbeitet',
+    'Edited' => 'Bearbeitet',
+    'last updated' => 'zuletzt bearbeitet',
+    'msg_newdraft' => 'Neuer Entwurf',
+    'Order' => 'Reihenfolge',
+    'Title' => 'Titel',
+    'Type' => 'Typ',
 
 ];

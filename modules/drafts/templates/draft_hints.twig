@@ -1,5 +1,6 @@
 {% set draftPermission = 'editpeerentrydrafts:' ~ entry.section.uid %}
 
+
 {# Show existing drafts --------------------------------------------------------------------- #}
 
 {% set query = craft.entries
@@ -71,11 +72,17 @@
             {% for draft in drafts %}
                 {% set user = craft.users.id(draft.creatorId).one %}
                 {% if user %}
-                    {{ tag('span', {
+                    {{ tag('button', {
+                        type: 'button',
                         class: ['btn', 'drafts-warning', 'drafts-noteditable'],
                         title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
-                        href: "#{ draft.cpEditUrl }&draftId=#{ draft.draftId }",
-                        text: "#{user.fullName} #{draft.dateUpdated|date}"
+                        text: "#{user.fullName} #{draft.dateUpdated|date}",
+                        onclick:"compare('#{ cpUrl('drafts/compare', {
+                            id: draft.id,
+                            siteId: draft.siteId,
+                            isDraft: draft.isDraft,
+                            isProvisionalDraft: draft.isProvisionalDraft()
+                        }) }')"
                     }) }}
                 {% endif %}
             {% endfor %}
@@ -84,16 +91,17 @@
 
 {% endif %}
 
+{# Compare opened draft #}
 {% if not entry.isCanonical %}
     <div>
-        <button type="button" class="btn"
+        <button type="button" class="btn compare-btn"
                 onclick="compare('{{ cpUrl('drafts/compare', {
                     id: entry.id,
                     siteId: entry.siteId,
                     isDraft: entry.isDraft,
                     isProvisionalDraft: entry.isProvisionalDraft()
                 }) }}')">
-            Compare
+            {{ 'Compare with current'|t('drafts') }}
         </button>
     </div>
 {% endif %}
@@ -107,12 +115,16 @@ function compare(url) {
             });
         })
         .fail(function() {
-            alert("error");
+            alert("Error");
         })
 }
 {% endjs %}
 
 {% css %}
+.compare-container {
+    overflow-y: scroll;
+}
+
 .drafts-warning {
     display: block;
     overflow: hidden;
@@ -133,9 +145,10 @@ function compare(url) {
 }
 
 .field-diff-table {
-    display:flex;
+    display: flex;
 
 }
+
 .field-diff-table div {
     margin-right: 4px;
     width: 50%;
@@ -152,18 +165,14 @@ function compare(url) {
     margin-left: 12px;
 }
 
-body.ltr .matrixblock > .titlebar {
+.field-diff .matrixblock > .titlebar {
     padding-left: 14px !important;
-}
-
-
-.compare-container {
-    overflow-y: scroll;
 }
 
 .matrixblock > .titlebar.field-diff-new {
     color: green !important;
 }
+
 .matrixblock > .titlebar.field-diff-deleted {
     color: red !important;
 }

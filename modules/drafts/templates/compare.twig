@@ -13,6 +13,13 @@
     {% exit 404 %}
 {% endif %}
 
+
+{% set user = craft.users.id(entry.creatorId).one %}
+<p>
+    {{ 'Draft created by'|t('drafts') }} {{ user ? user.fullName : entry.creatorId }},  {{ 'last updated'|t('drafts') }}: {{ entry.dateUpdated|datetime }}
+</p>
+
+
 {% set entry2 = entry.canonical %}
 <h1>
  {{ _self.attrDiff('Edits', 'Current') }}
@@ -20,7 +27,7 @@
 
 {% if entry.title != entry2.title %}
     <div class="field-diff">
-        <h2>Title</h2>
+        <h2>{{ 'Title'|t('drafts') }}</h2>
         {{ _self.attrDiff(entry.title, entry2.title) }}
     </div>
 {% endif %}
@@ -63,8 +70,8 @@
                     <div class="matrixblock field-diff-block">
                         <div class="titlebar field-diff-blockname {{ isNew ? 'field-diff-new' }}">
                             {{ block.type.name }}<br/>
-                            Order: Draft: {{ block.sortOrder }} /
-                            Current: {{ block2.id != block.id ? block2.sortOrder : '-' }}
+                            {{ 'Order'|t('drafts') }}: {{ 'Draft'|t('drafts') }}: {{ block.sortOrder }} /
+                            {{ 'Current'|t('drafts') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
                         </div>
 
                         {% if isNew %}
@@ -82,8 +89,8 @@
                     {% if block.canonicalId not in currentBlockIds %}
                         <div class="matrixblock field-diff-block">
                             <div class="titlebar field-diff-blockname field-diff-deleted">
-                                Type: {{ block.type.name }}<br/>
-                                Order: Draft: {{ block.sortOrder }} / Deleted
+                                {{ 'Type'|t('drafts') }}: {{ block.type.name }}<br/>
+                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }} / {{ 'Deleted'|t('drafts') }}
                             </div>
                             {{ _self.blockContent(block) }}
                         </div>
