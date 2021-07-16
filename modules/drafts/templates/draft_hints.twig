@@ -132,6 +132,19 @@ function compare(url) {
     margin-left: 24px;
 }
 
+.field-diff-table {
+    display:flex;
+
+}
+.field-diff-table div {
+    margin-right: 4px;
+    width: 50%;
+}
+
+.field-diff-block {
+    margin-left: 24px;
+}
+
 .field-diff-blockname {
     font-weight: bold;
     margin-top: 12px;
@@ -139,15 +152,20 @@ function compare(url) {
     margin-left: 12px;
 }
 
+body.ltr .matrixblock > .titlebar {
+    padding-left: 14px !important;
+}
+
+
 .compare-container {
     overflow-y: scroll;
 }
 
-.field-diff-new {
-    color: green;
+.matrixblock > .titlebar.field-diff-new {
+    color: green !important;
 }
-.field-diff-deleted {
-    color: red;
+.matrixblock > .titlebar.field-diff-deleted {
+    color: red !important;
 }
 
 

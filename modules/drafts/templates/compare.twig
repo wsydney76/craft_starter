@@ -13,22 +13,14 @@
     {% exit 404 %}
 {% endif %}
 
-
-{% set user = craft.users.id(entry.creatorId).one %}
-<p>
-    {{ 'Draft created by'|t('drafts') }} {{ user ? user.fullName : entry.creatorId }}, {{ 'last updated'|t('drafts') }}
-    : {{ entry.dateUpdated|datetime }}
-</p>
-
-
 {% set entry2 = entry.canonical %}
 <h1>
-    {{ _self.attrDiff('Edits', 'Current') }}
+ {{ _self.attrDiff('Edits', 'Current') }}
 </h1>
 
 {% if entry.title != entry2.title %}
     <div class="field-diff">
-        <h2>{{ 'Title'|t('drafts') }}</h2>
+        <h2>Title</h2>
         {{ _self.attrDiff(entry.title, entry2.title) }}
     </div>
 {% endif %}
@@ -56,13 +48,14 @@
     {% if element.isFieldModified(field.handle) %}
         <div class="field-diff field-diff-level-{{ level }}">
 
-            <h2>{{ field.name == '__blank__' ? field.handle|capitalize : field.name }}</h2>
+            <h2>{{ field.name }}</h2>
 
             {% set value = element.fieldValue(field.handle) %}
             {% set value2 = element2.fieldValue(field.handle) %}
 
+            {% switch className(field) %}
 
-            {% if className(field) == "craft\\fields\\Matrix" %}
+            {% case "craft\\fields\\Matrix" %}
 
                 {% for block in value.all %}
                     {% set block2 = block.canonical %}
@@ -70,8 +63,8 @@
                     <div class="matrixblock field-diff-block">
                         <div class="titlebar field-diff-blockname {{ isNew ? 'field-diff-new' }}">
                             {{ block.type.name }}<br/>
-                            {{ 'Order'|t('drafts') }}: {{ 'Draft'|t('drafts') }}: {{ block.sortOrder }} /
-                            {{ 'Current'|t('drafts') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
+                            Order: Draft: {{ block.sortOrder }} /
+                            Current: {{ block2.id != block.id ? block2.sortOrder : '-' }}
                         </div>
 
                         {% if isNew %}
@@ -89,23 +82,17 @@
                     {% if block.canonicalId not in currentBlockIds %}
                         <div class="matrixblock field-diff-block">
                             <div class="titlebar field-diff-blockname field-diff-deleted">
-                                {{ 'Type'|t('drafts') }}: {{ block.type.name }}<br/>
-                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
-                                / {{ 'Deleted'|t('drafts') }}
+                                Type: {{ block.type.name }}<br/>
+                                Order: Draft: {{ block.sortOrder }} / Deleted
                             </div>
                             {{ _self.blockContent(block) }}
                         </div>
                     {% endif %}
                 {% endfor %}
 
-            {% elseif not (className(field) starts with "craft") %}
-                {% set template = className(field)|replace({'\\':'_'}) %}
-                {% include ["drafts/fields/#{template}", 'drafts/fields/unknown'] with {
-                    field, value, value2
-                } only %}
-            {% else %}
+            {% default %}
                 {{ _self.valueDiff(field, value, value2) }}
-            {% endif %}
+            {% endswitch %}
         </div>
     {% endif %}
 
@@ -113,7 +100,7 @@
 
 {% macro blockContent(block) %}
     {% for field in block.fieldLayout.fields %}
-        <div class="field-diff field-diff-level-1">
+        <div class="field-diff field-diff-level-2">
             <h2>{{ field.name }}</h2>
             {{ _self.fieldValue(field, block.fieldValue(field.handle)) }}
         </div>
@@ -183,22 +170,9 @@
             {{ field.offLabel ?: 'Off' }}
         {% endif %}
 
-    {% case "craft\\fields\\Table" %}
-
-        {% for row in value %}
-        	<h3>Row {{ loop.index }}</h3>
-            {% for col in field.columns %}
-                {{ col.heading }}: {{ col.type == 'date' ? row[col.handle]|date : row[col.handle] }}<br>
-            {% endfor %}
-        {% endfor %}
-
     {% default %}
-        {% if value is iterable %}
-            <pre>{{ dump(value) }}</pre>
-        {% else %}
-            {{ value }}
-        {% endif %}
 
+        {{ value }}
 
     {% endswitch %}
 {% endmacro %}
