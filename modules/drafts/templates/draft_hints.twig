@@ -34,11 +34,17 @@
                     }) }}
                 {% else %}
                     {% set user = craft.users.id(draft.creatorId).one %}
-                    {{ tag('span', {
+                    {{ tag('button', {
+                        type: 'button',
                         class: ['btn', 'drafts-warning', 'drafts-noteditable'],
                         title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
-                        href: "#{ draft.cpEditUrl }&draftId=#{ draft.draftId }",
-                        text: "#{draft.draftName}"
+                        text: "#{draft.draftName}",
+                        onclick:"compare('#{ cpUrl('drafts/compare', {
+                            id: draft.id,
+                            siteId: draft.siteId,
+                            isDraft: draft.isDraft,
+                            isProvisionalDraft: draft.isProvisionalDraft()
+                        }) }')"
                     }) }}
                 {% endif %}
             {% endfor %}

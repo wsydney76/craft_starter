@@ -16,13 +16,14 @@
 
 {% set user = craft.users.id(entry.creatorId).one %}
 <p>
-    {{ 'Draft created by'|t('drafts') }} {{ user ? user.fullName : entry.creatorId }},  {{ 'last updated'|t('drafts') }}: {{ entry.dateUpdated|datetime }}
+    {{ 'Draft created by'|t('drafts') }} {{ user ? user.fullName : entry.creatorId }}, {{ 'last updated'|t('drafts') }}
+    : {{ entry.dateUpdated|datetime }}
 </p>
 
 
 {% set entry2 = entry.canonical %}
 <h1>
- {{ _self.attrDiff('Edits', 'Current') }}
+    {{ _self.attrDiff('Edits', 'Current') }}
 </h1>
 
 {% if entry.title != entry2.title %}
@@ -55,14 +56,13 @@
     {% if element.isFieldModified(field.handle) %}
         <div class="field-diff field-diff-level-{{ level }}">
 
-            <h2>{{ field.name }}</h2>
+            <h2>{{ field.name == '__blank__' ? field.handle|capitalize : field.name }}</h2>
 
             {% set value = element.fieldValue(field.handle) %}
             {% set value2 = element2.fieldValue(field.handle) %}
 
-            {% switch className(field) %}
 
-            {% case "craft\\fields\\Matrix" %}
+            {% if className(field) == "craft\\fields\\Matrix" %}
 
                 {% for block in value.all %}
                     {% set block2 = block.canonical %}
@@ -90,16 +90,19 @@
                         <div class="matrixblock field-diff-block">
                             <div class="titlebar field-diff-blockname field-diff-deleted">
                                 {{ 'Type'|t('drafts') }}: {{ block.type.name }}<br/>
-                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }} / {{ 'Deleted'|t('drafts') }}
+                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
+                                / {{ 'Deleted'|t('drafts') }}
                             </div>
                             {{ _self.blockContent(block) }}
                         </div>
                     {% endif %}
                 {% endfor %}
 
-            {% default %}
+            {% elseif not className(field) starts with "craft" %}
+                {{ className(field) }} not impemented
+            {% else %}
                 {{ _self.valueDiff(field, value, value2) }}
-            {% endswitch %}
+            {% endif %}
         </div>
     {% endif %}
 
@@ -107,7 +110,7 @@
 
 {% macro blockContent(block) %}
     {% for field in block.fieldLayout.fields %}
-        <div class="field-diff field-diff-level-2">
+        <div class="field-diff field-diff-level-1">
             <h2>{{ field.name }}</h2>
             {{ _self.fieldValue(field, block.fieldValue(field.handle)) }}
         </div>
@@ -177,9 +180,22 @@
             {{ field.offLabel ?: 'Off' }}
         {% endif %}
 
-    {% default %}
+    {% case "craft\\fields\\Table" %}
 
-        {{ value }}
+        {% for row in value %}
+        	<h3>Row {{ loop.index }}</h3>
+            {% for col in field.columns %}
+                {{ col.heading }}: {{ col.type == 'date' ? row[col.handle]|date : row[col.handle] }}<br>
+            {% endfor %}
+        {% endfor %}
+
+    {% default %}
+        {% if value is iterable %}
+            <pre>{{ dump(value) }}</pre>
+        {% else %}
+            {{ value }}
+        {% endif %}
+
 
     {% endswitch %}
 {% endmacro %}
