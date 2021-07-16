@@ -17,8 +17,8 @@
 {% set drafts = query.all %}
 {% if drafts %}
 
-    {% set textOne = 'msg_draftwarningone'|t('drafts') %}
-    {% set textMultiple = 'msg_draftwarningmultiple'|t('drafts') %}
+    {% set textOne = 'msg_draftwarningone'|t('work') %}
+    {% set textMultiple = 'msg_draftwarningmultiple'|t('work') %}
 
     <div class="meta read-only warning">
         <p>{{ drafts|length == 1 ? textOne : textMultiple }}</p>
@@ -30,7 +30,7 @@
                         class: ['btn', 'drafts-warning'],
                         title: draft.draftName,
                         href: "#{ draft.cpEditUrl }&draftId=#{ draft.draftId }",
-                        text: "#{'Edit'|t('drafts')}: #{draft.draftName}"
+                        text: "#{'Edit'|t('work')}: #{draft.draftName}"
                     }) }}
                 {% else %}
                     {% set user = craft.users.id(draft.creatorId).one %}
@@ -39,7 +39,7 @@
                         class: ['btn', 'drafts-warning', 'drafts-noteditable'],
                         title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
                         text: "#{draft.draftName}",
-                        onclick:"compare('#{ cpUrl('drafts/compare', {
+                        onclick:"compare('#{ cpUrl('work/compare', {
                             id: draft.id,
                             siteId: draft.siteId,
                             isDraft: draft.isDraft,
@@ -69,8 +69,8 @@
 {% set drafts = query.all %}
 {% if drafts %}
 
-    {% set textOne = 'msg_provisionaldraftwarningone'|t('drafts') %}
-    {% set textMultiple = 'msg_provisionaldraftwarningmultiple'|t('drafts') %}
+    {% set textOne = 'msg_provisionaldraftwarningone'|t('work') %}
+    {% set textMultiple = 'msg_provisionaldraftwarningmultiple'|t('work') %}
 
     <div class="meta read-only warning">
         <p>{{ drafts|length == 1 ? textOne : textMultiple }}</p>
@@ -83,7 +83,7 @@
                         class: ['btn', 'drafts-warning', 'drafts-noteditable'],
                         title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
                         text: "#{user.fullName} #{draft.dateUpdated|date}",
-                        onclick:"compare('#{ cpUrl('drafts/compare', {
+                        onclick:"compare('#{ cpUrl('work/compare', {
                             id: draft.id,
                             siteId: draft.siteId,
                             isDraft: draft.isDraft,
@@ -101,13 +101,13 @@
 {% if not entry.isCanonical %}
     <div>
         <button type="button" class="btn compare-btn"
-                onclick="compare('{{ cpUrl('drafts/compare', {
+                onclick="compare('{{ cpUrl('work/compare', {
                     id: entry.id,
                     siteId: entry.siteId,
                     isDraft: entry.isDraft,
                     isProvisionalDraft: entry.isProvisionalDraft()
                 }) }}')">
-            {{ 'Compare with current'|t('drafts') }}
+            {{ 'Compare with current'|t('work') }}
         </button>
     </div>
 {% endif %}
@@ -193,5 +193,8 @@ function compare(url) {
     color: red !important;
 }
 
+.transfer-form {
+    margin-bottom: 24px;
+}
 
 {% endcss %}

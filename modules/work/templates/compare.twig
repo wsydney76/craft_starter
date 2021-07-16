@@ -16,19 +16,42 @@
 
 {% set user = craft.users.id(entry.creatorId).one %}
 <p>
-    {{ 'Draft created by'|t('drafts') }} {{ user ? user.fullName : entry.creatorId }}, {{ 'last updated'|t('drafts') }}
-    : {{ entry.dateUpdated|datetime }}
+    {{ 'Draft created by'|t('work') }} {{ user ? user.fullName : entry.creatorId }}, {{ 'last updated'|t('work') }}
+    : {{ entry.dateUpdated|datetime }} ID: {{ entry.id }} Draft-ID: {{ entry.draftId }}
 </p>
 
-
 {% set entry2 = entry.canonical %}
+
+{% if  entry.isProvisionalDraft() and entry.creatorId != currentUser.id and currentUser.can('transferProvisionalDrafts') %}
+
+    {% set hasOwnProvisionalDraft = craft.entries
+        .draftOf(entry2)
+        .drafts(true)
+        .provisionalDrafts(true)
+        .site('*')
+        .draftCreator(currentUser)
+    .exists() %}
+
+    {% if not hasOwnProvisionalDraft %}
+        <form method="post" class="transfer-form" onsubmit="return confirm('{{ 'Transfer provisional Draft?'|t('work') }}')">
+            {{ csrfInput() }}
+            {{ actionInput('work/content/transfer') }}
+            {{ hiddenInput('id', entry.id) }}
+            {{ hiddenInput('draftId', entry.draftId|hash) }}
+            <button type="submit" class="btn submit">{{ 'Transfer to my account'|t('work') }}</button>
+        </form>
+    {% endif %}
+
+{% endif %}
+
+
 <h1>
     {{ _self.attrDiff('Edits', 'Current') }}
 </h1>
 
 {% if entry.title != entry2.title %}
     <div class="field-diff">
-        <h2>{{ 'Title'|t('drafts') }}</h2>
+        <h2>{{ 'Title'|t('work') }}</h2>
         {{ _self.attrDiff(entry.title, entry2.title) }}
     </div>
 {% endif %}
@@ -73,8 +96,8 @@
                                 {{ block.type.name }}
                             </div>
                             <div>
-                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t('drafts') }}: {{ block.sortOrder }} /
-                                {{ 'Current'|t('drafts') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
+                                {{ 'Order'|t('work') }}: {{ 'Draft'|t('work') }}: {{ block.sortOrder }} /
+                                {{ 'Current'|t('work') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
                             </div>
                         </div>
 
@@ -94,11 +117,11 @@
                         <div class="matrixblock field-diff-block">
                             <div class="titlebar field-diff-blockname field-diff-deleted">
                                 <div>
-                                    {{ 'Type'|t('drafts') }}: {{ block.type.name }}
+                                    {{ 'Type'|t('work') }}: {{ block.type.name }}
                                 </div>
                                 <div>
-                                    {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
-                                    / {{ 'Deleted'|t('drafts') }}
+                                    {{ 'Order'|t('work') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
+                                    / {{ 'Deleted'|t('work') }}
                                 </div>
                             </div>
                             {{ _self.blockContent(block) }}
@@ -109,7 +132,7 @@
             {% elseif not (className(field) starts with "craft") %}
                 {# This template should import and use the attrDiff macro #}
                 {% set template = className(field)|replace({'\\':'_'}) %}
-                {% include ["drafts/fields/#{template}", "drafts/fields/unknown"] with {
+                {% include ["work/fields/#{template}", "work/fields/unknown"] with {
                     field, value, value2
                 } only %}
 

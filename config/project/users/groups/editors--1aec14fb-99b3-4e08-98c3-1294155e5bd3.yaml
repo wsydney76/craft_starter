@@ -2,88 +2,89 @@ description: ''
 handle: editors
 name: Editors
 permissions:
-  - accesscp
-  - accesscpwhensystemisoff
   - accesssitewhensystemisoff
-  - 'createentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
-  - 'createentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'createentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'createfoldersinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'createfoldersinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'createfoldersinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'createfoldersinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'createfoldersinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'deleteentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
-  - 'deleteentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'deleteentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'deletefilesandfoldersinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'deletefilesandfoldersinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'deletefilesandfoldersinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'deletefilesandfoldersinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'deletefilesandfoldersinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'deletepeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'deletepeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'deletepeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'deletepeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'deletepeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'deletepeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'deletepeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'deletepeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'deletepeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'editentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
-  - 'editentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'editentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'editimagesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'editimagesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'editimagesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'editimagesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'editimagesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'editpeerentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
-  - 'editpeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'editpeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'editpeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'editpeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'editpeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'editpeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'editpeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'editpeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'editpeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'editpeerimagesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'editpeerimagesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'editpeerimagesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'editpeerimagesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'editpeerimagesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - accesscpwhensystemisoff
+  - accesscp
   - 'editsite:97e0b749-86e3-49f1-918e-9b88758928f4' # English
   - 'editsite:bbbb120d-5d71-4e7c-a164-487e401c4f2c' # Deutsch
+  - 'createentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'publishentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
+  - 'deleteentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
+  - 'editpeerentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
+  - 'editentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
+  - 'createentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'publishentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'publishentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'deleteentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'publishpeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
-  - 'publishpeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'deletepeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
+  - 'editpeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'publishpeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
+  - 'deletepeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
+  - 'editpeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
+  - 'editentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
+  - 'createentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'publishentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'deleteentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'publishpeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'deletepeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'editpeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
   - 'publishpeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'replacefilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'replacefilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'replacefilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'replacefilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'replacefilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'replacepeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'replacepeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
-  - 'replacepeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'replacepeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'replacepeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'saveassetinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'saveassetinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'deletepeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'editpeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
+  - 'editentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
   - 'saveassetinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'saveassetinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'saveassetinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'viewpeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'viewpeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'createfoldersinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'deletefilesandfoldersinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'replacefilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'editimagesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'editpeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'replacepeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'deletepeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'editpeerimagesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
   - 'viewpeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
-  - 'viewpeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
-  - 'viewpeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'viewvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
-  - 'viewvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
   - 'viewvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
+  - 'saveassetinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'createfoldersinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'deletefilesandfoldersinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'replacefilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'editimagesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'editpeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'replacepeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'deletepeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'editpeerimagesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'viewpeerfilesinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
   - 'viewvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
+  - 'saveassetinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'createfoldersinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'deletefilesandfoldersinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'replacefilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'editimagesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'editpeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'replacepeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'deletepeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'editpeerimagesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'viewpeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'viewvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
+  - 'saveassetinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'createfoldersinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'deletefilesandfoldersinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'replacefilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'editimagesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'editpeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'replacepeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'deletepeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'editpeerimagesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'viewpeerfilesinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
   - 'viewvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - 'saveassetinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'createfoldersinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'deletefilesandfoldersinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'replacefilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'editimagesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'editpeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'replacepeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'deletepeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'editpeerimagesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'viewpeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - 'viewvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
+  - transferprovisionaldrafts

@@ -1,24 +1,31 @@
 <?php
 
-namespace modules\drafts;
+namespace modules\work;
 
 use Craft;
 use craft\base\Element;
 use craft\elements\Entry;
 use craft\events\RegisterElementTableAttributesEvent;
 use craft\events\RegisterTemplateRootsEvent;
+use craft\events\RegisterUserPermissionsEvent;
 use craft\events\SetElementTableAttributeHtmlEvent;
 use craft\i18n\PhpMessageSource;
+use craft\services\UserPermissions;
 use craft\web\View;
 use yii\base\Event;
 use yii\base\Module;
 
-class DraftsModule extends Module
+class WorkModule extends Module
 {
     public function init()
     {
 
-        Craft::setAlias('@modules/drafts', $this->getBasePath());
+        Craft::setAlias('@modules/work', $this->getBasePath());
+
+        // Set the controllerNamespace based on whether this is a console or web request
+        $this->controllerNamespace = Craft::$app->request->isConsoleRequest ?
+            'modules\\work\\console\\controllers' :
+            'modules\\work\\controllers';
 
         parent::init();
 
@@ -30,18 +37,13 @@ class DraftsModule extends Module
         Event::on(
             View::class,
             View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function(RegisterTemplateRootsEvent $event) {
-            $event->roots['drafts'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
-        }
-        );
-        Event::on(
-            View::class,
-            View::EVENT_REGISTER_SITE_TEMPLATE_ROOTS, function(RegisterTemplateRootsEvent $event) {
-            $event->roots['drafts'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
+            $event->roots['work'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
         }
         );
 
+
         // Register translation category
-        Craft::$app->i18n->translations['drafts'] = [
+        Craft::$app->i18n->translations['work'] = [
             'class' => PhpMessageSource::class,
             'sourceLanguage' => 'en',
             'basePath' => __DIR__ . '/messages',
@@ -57,16 +59,28 @@ class DraftsModule extends Module
                     return '';
                 }
                 return Craft::$app->view->renderTemplate(
-                    'drafts/draft_hints',
+                    'work/draft_hints',
                     ['entry' => $entry]);
             });
         }
+
+        // Create Permissions
+        Event::on(
+            UserPermissions::class,
+            UserPermissions::EVENT_REGISTER_PERMISSIONS, function(RegisterUserPermissionsEvent $event) {
+            $event->permissions['Work Module'] = [
+                'transferprovisionaldrafts' => [
+                    'label' => Craft::t('work', 'Transfer other users provisional draft to own account')
+                ]
+            ];
+        }
+        );
 
         // Register element index column
         Event::on(
             Entry::class,
             Element::EVENT_REGISTER_TABLE_ATTRIBUTES, function(RegisterElementTableAttributesEvent $event) {
-            $event->tableAttributes['hasProvisionalDraft'] = ['label' => Craft::t('drafts', 'Edited')];
+            $event->tableAttributes['hasProvisionalDraft'] = ['label' => Craft::t('work', 'Edited')];
         }
         );
         Event::on(
