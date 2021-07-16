@@ -5,6 +5,7 @@ namespace modules\work;
 use Craft;
 use craft\base\Element;
 use craft\elements\Entry;
+use craft\events\DefineBehaviorsEvent;
 use craft\events\RegisterElementTableAttributesEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\RegisterUserPermissionsEvent;
@@ -12,6 +13,7 @@ use craft\events\SetElementTableAttributeHtmlEvent;
 use craft\i18n\PhpMessageSource;
 use craft\services\UserPermissions;
 use craft\web\View;
+use modules\work\behaviors\WorkEntryBehavior;
 use yii\base\Event;
 use yii\base\Module;
 
@@ -63,6 +65,13 @@ class WorkModule extends Module
                     ['entry' => $entry]);
             });
         }
+
+        // Register Behavior
+        Event::on(
+            Entry::class,
+            Entry::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
+            $event->behaviors[] = WorkEntryBehavior::class;
+        });
 
         // Create Permissions
         Event::on(

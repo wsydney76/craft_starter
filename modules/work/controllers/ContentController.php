@@ -4,8 +4,10 @@ namespace modules\work\controllers;
 
 use Craft;
 use craft\db\Table;
+use craft\elements\User;
 use craft\helpers\Db;
 use craft\web\Controller;
+use modules\work\records\TransferHistoryRecord;
 use yii\base\InvalidArgumentException;
 use yii\db\Exception as DbExexption;
 use yii\web\ForbiddenHttpException;
@@ -29,6 +31,13 @@ class ContentController extends Controller
             throw new InvalidArgumentException();
         }
 
+        $creatorId = $request->getRequiredBodyParam('creatorId');
+        $creatorId = $security->validateData($creatorId);
+        if (!$creatorId) {
+            throw new InvalidArgumentException();
+        }
+
+
         try {
             $recordsUpdated = Db::update(Table::DRAFTS, [
                 'creatorId' => $user->id
@@ -45,6 +54,16 @@ class ContentController extends Controller
             $session->setError(Craft::t('work', 'Could not update drafts table'));
             return $this->redirectToPostedUrl();
         }
+
+        $creator = User::findOne($creatorId);
+        $transferHistoryRecord = new TransferHistoryRecord([
+            'draftId' => $draftId,
+            'fromUserId' => $creatorId,
+            'toUserId' => $user->id,
+            'fromUserName' => $creator ? $creator->fullName : $creatorId,
+            'toUserName' => $user->fullName
+        ]);
+        $transferHistoryRecord->save();
 
         $session->setNotice(Craft::t('work', 'Provisional draft transfered'));
         return $this->redirectToPostedUrl();

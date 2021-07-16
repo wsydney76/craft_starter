@@ -1,3 +1,5 @@
+{# @var transferHistory \modules\work\records\TransferHistoryRecord #}
+
 {% set id = craft.app.request.requiredQueryParam('id') %}
 {% set siteId = craft.app.request.requiredQueryParam('siteId') %}
 {% set isDraft = craft.app.request.requiredQueryParam('isDraft', false) %}
@@ -22,28 +24,36 @@
 
 {% set entry2 = entry.canonical %}
 
-{% if  entry.isProvisionalDraft() and entry.creatorId != currentUser.id and currentUser.can('transferProvisionalDrafts') %}
-
-    {% set hasOwnProvisionalDraft = craft.entries
-        .draftOf(entry2)
-        .drafts(true)
-        .provisionalDrafts(true)
-        .site('*')
-        .draftCreator(currentUser)
-    .exists() %}
-
-    {% if not hasOwnProvisionalDraft %}
-        <form method="post" class="transfer-form" onsubmit="return confirm('{{ 'Transfer provisional Draft?'|t('work') }}')">
-            {{ csrfInput() }}
-            {{ actionInput('work/content/transfer') }}
-            {{ hiddenInput('id', entry.id) }}
-            {{ hiddenInput('draftId', entry.draftId|hash) }}
-            <button type="submit" class="btn submit">{{ 'Transfer to my account'|t('work') }}</button>
-        </form>
-    {% endif %}
+{% if  entry.canTransfer() %}
+    <form method="post" class="transfer-form"
+          onsubmit="return confirm('{{ 'Transfer provisional Draft?'|t('work') }}')">
+        {{ csrfInput() }}
+        {{ actionInput('work/content/transfer') }}
+        {{ hiddenInput('id', entry.id) }}
+        {{ hiddenInput('draftId', entry.draftId|hash) }}
+        {{ hiddenInput('creatorId', entry.creatorId|hash) }}
+        <button type="submit" class="btn submit">{{ 'Transfer to my account'|t('work') }}</button>
+    </form>
 
 {% endif %}
 
+{% if entry.isProvisionalDraft() %}
+    {% set transferHistories = entry.transferHistory %}
+
+    {% if transferHistories %}
+        <h3>{{ 'Transfer History'|t }}</h3>
+        <div class="transfer-history">
+            {% for transferHistory in transferHistories %}
+                <div>
+                    {{ craft.app.formatter.asDatetime(transferHistory.dateCreated) }}
+                    {{ 'from'|t('work') }} {{ transferHistory.fromUserName }}
+                    {{ 'to'|t('work') }} {{ transferHistory.toUserName }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endif %}
 
 <h1>
     {{ _self.attrDiff('Edits', 'Current') }}
