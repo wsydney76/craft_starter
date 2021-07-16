@@ -1,6 +1,6 @@
 assets:
   tempVolumeUid: 35c3b3f5-30e7-4780-9ae1-286ee8bd275e # Temporary Uploads
-dateModified: 1626362365
+dateModified: 1626433454
 email:
   fromEmail: $EMAIL_ADDRESS
   fromName: $EMAIL_SENDER
@@ -30,6 +30,7 @@ meta:
     3ef62a7b-6c6d-470f-88a6-31de5a099b38: Teaser # Teaser
     3f9c2f2a-8ab0-4aba-bf4e-02d5336d14c0: Copyright # Copyright
     4d466365-d4d6-4da1-b35a-009a6fca474c: 'Public Schema' # Public Schema
+    4f4d2410-e8bd-4bef-9962-167fac851984: Features # Features
     6c2c7c89-c2ff-4ace-a3e6-aeddab27ab7b: Documents # Documents
     6e85df5a-9848-47e6-98f8-728b28c8f205: Gallery # Gallery
     7a11b052-f8c9-46d7-8bb4-7c9a3916200c: Image # Image
@@ -96,6 +97,7 @@ meta:
     f049bdd0-6f43-47c4-a14d-4e40b7bc84cb: Text # Text
     f1d8d989-2bc0-4a0f-b58f-a348276a5596: Content # Content
     f8d2f509-8906-46f9-959b-a2297e7f1abf: 'Site Navigation' # Site Navigation
+    f27f4038-975b-41d2-a58a-7e78ed2000f5: __blank__ # __blank__
     f90b9645-97c8-4969-b1ee-149e79a745e7: Topic # Topic
     f93d0a69-cf0f-47c7-a17b-bb1070ce3df6: Page # Page
     f8131459-0978-46ca-9cd2-9816c16a9a2f: Customer # Customer

@@ -1,0 +1,205 @@
+{% set id = craft.app.request.requiredQueryParam('id') %}
+{% set siteId = craft.app.request.requiredQueryParam('siteId') %}
+{% set isDraft = craft.app.request.requiredQueryParam('isDraft', false) %}
+{% set isProvisionalDraft = craft.app.request.requiredQueryParam('isProvisionalDraft', false) %}
+
+{% if isProvisionalDraft %}
+    {% set entry = craft.entries.id(id).drafts(true).provisionalDrafts(true).siteId(siteId).one %}
+{% else %}
+    {% set entry = craft.entries.id(id).drafts(true).siteId(siteId).one %}
+{% endif %}
+
+{% if not entry %}
+    {% exit 404 %}
+{% endif %}
+
+
+{% set user = craft.users.id(entry.creatorId).one %}
+<p>
+    {{ 'Draft created by'|t('drafts') }} {{ user ? user.fullName : entry.creatorId }}, {{ 'last updated'|t('drafts') }}
+    : {{ entry.dateUpdated|datetime }}
+</p>
+
+
+{% set entry2 = entry.canonical %}
+<h1>
+    {{ _self.attrDiff('Edits', 'Current') }}
+</h1>
+
+{% if entry.title != entry2.title %}
+    <div class="field-diff">
+        <h2>{{ 'Title'|t('drafts') }}</h2>
+        {{ _self.attrDiff(entry.title, entry2.title) }}
+    </div>
+{% endif %}
+
+{% if entry.slug != entry2.slug %}
+    <div class="field-diff">
+        <h2>Slug</h2>
+        {{ entry.slug }}<br>
+        -------<br>
+        {{ entry2.slug }}
+    </div>
+{% endif %}
+
+{{ _self.elementDiff(entry, entry2) }}
+
+
+{% macro elementDiff(element, element2, level = 1) %}
+    {% for field in element.fieldLayout.fields %}
+        {{ _self.fieldDiff(element, element2, field, level) }}
+    {% endfor %}
+{% endmacro %}
+
+
+{% macro fieldDiff(element, element2, field, level = 1) %}
+    {% if element.isFieldModified(field.handle) %}
+        <div class="field-diff field-diff-level-{{ level }}">
+
+            <h2>{{ field.name == '__blank__' ? field.handle|capitalize : field.name }}</h2>
+
+            {% set value = element.fieldValue(field.handle) %}
+            {% set value2 = element2.fieldValue(field.handle) %}
+
+
+            {% if className(field) == "craft\\fields\\Matrix" %}
+
+                {% for block in value.all %}
+                    {% set block2 = block.canonical %}
+                    {% set isNew = block2.id == block.id %}
+                    <div class="matrixblock field-diff-block">
+                        <div class="titlebar field-diff-blockname {{ isNew ? 'field-diff-new' }}">
+                            {{ block.type.name }}<br/>
+                            {{ 'Order'|t('drafts') }}: {{ 'Draft'|t('drafts') }}: {{ block.sortOrder }} /
+                            {{ 'Current'|t('drafts') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
+                        </div>
+
+                        {% if isNew %}
+                            {{ _self.blockContent(block) }}
+                        {% else %}
+                            {{ _self.elementDiff(block, block2, 1) }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {# Deleted blocks #}
+                {% set draftBlocks = value.all %}
+                {% set currentBlockIds = value2.ids %}
+                {% for block in draftBlocks %}
+                    {% if block.canonicalId not in currentBlockIds %}
+                        <div class="matrixblock field-diff-block">
+                            <div class="titlebar field-diff-blockname field-diff-deleted">
+                                {{ 'Type'|t('drafts') }}: {{ block.type.name }}<br/>
+                                {{ 'Order'|t('drafts') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
+                                / {{ 'Deleted'|t('drafts') }}
+                            </div>
+                            {{ _self.blockContent(block) }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            {% elseif not (className(field) starts with "craft") %}
+                {% set template = className(field)|replace({'\\':'_'}) %}
+                {% include ["drafts/fields/#{template}", 'drafts/fields/unknown'] with {
+                    field, value, value2
+                } only %}
+            {% else %}
+                {{ _self.valueDiff(field, value, value2) }}
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endmacro %}
+
+{% macro blockContent(block) %}
+    {% for field in block.fieldLayout.fields %}
+        <div class="field-diff field-diff-level-1">
+            <h2>{{ field.name }}</h2>
+            {{ _self.fieldValue(field, block.fieldValue(field.handle)) }}
+        </div>
+    {% endfor %}
+
+{% endmacro %}
+
+
+{% macro attrDiff(value, value2) %}
+    <div class="field-diff-table">
+        <div>
+            {{ value }}
+        </div>
+        <div>
+            {{ value2 }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro valueDiff(field, value, value2) %}
+    <div class="field-diff-table">
+        <div>
+            {{ _self.fieldValue(field, value) }}
+        </div>
+        <div>
+            {{ _self.fieldValue(field, value2) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro fieldValue(field, value) %}
+    {% switch className(field) %}
+
+    {% case "craft\\fields\\Assets" %}
+
+        {% for item in value.all %}
+            {% if item.kind == 'image' %}
+                {{ item.img({height:100}) }}
+            {% else %}
+                {{ item.title }}
+            {% endif %}
+
+        {% endfor %}
+
+    {% case "craft\\fields\\Entries" %}
+
+        {% for item in value.all %}
+            {{ item.title }}<br>
+        {% endfor %}
+
+    {% case "craft\\fields\\Date" %}
+        {{ value|datetime }}
+
+    {% case "craft\\fields\\Dropdown" %}
+        {{ value.label }}
+
+    {% case "craft\\fields\\MultiSelect" or "craft\\fields\\Checkboxes" %}
+        {% for option in value %}
+            {{ option.label }}
+        {% endfor %}
+
+    {% case "craft\\fields\\Lightswitch" %}
+        {% if value %}
+            {{ field.onLabel ?: 'On' }}
+        {% else %}
+            {{ field.offLabel ?: 'Off' }}
+        {% endif %}
+
+    {% case "craft\\fields\\Table" %}
+
+        {% for row in value %}
+        	<h3>Row {{ loop.index }}</h3>
+            {% for col in field.columns %}
+                {{ col.heading }}: {{ col.type == 'date' ? row[col.handle]|date : row[col.handle] }}<br>
+            {% endfor %}
+        {% endfor %}
+
+    {% default %}
+        {% if value is iterable %}
+            <pre>{{ dump(value) }}</pre>
+        {% else %}
+            {{ value }}
+        {% endif %}
+
+
+    {% endswitch %}
+{% endmacro %}
+

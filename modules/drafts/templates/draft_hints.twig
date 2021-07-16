@@ -7,8 +7,7 @@
     .site('*')
     .unique()
     .preferSites([entry.site.handle])
-    .orderBy('dateUpdated desc')
-%}
+    .orderBy('dateUpdated desc') %}
 
 {% if entry.isDraft %}
     {% set query = query.id("not #{entry.id}") %}
@@ -58,8 +57,7 @@
     .site('*')
     .unique()
     .preferSites([entry.site.handle])
-    .orderBy('dateUpdated desc')
-%}
+    .orderBy('dateUpdated desc') %}
 
 {% set drafts = query.all %}
 {% if drafts %}
@@ -86,9 +84,33 @@
 
 {% endif %}
 
-<div class="meta read-only warning" id="draft-new" style="display:none">
-    {{ 'msg_newdraft'|t('drafts') }}: <b><span id="draft-name"></span></b>
-</div>
+{% if not entry.isCanonical %}
+    <div>
+        <button type="button" class="btn"
+                onclick="compare('{{ cpUrl('drafts/compare', {
+                    id: entry.id,
+                    siteId: entry.siteId,
+                    isDraft: entry.isDraft,
+                    isProvisionalDraft: entry.isProvisionalDraft()
+                }) }}')">
+            Compare
+        </button>
+    </div>
+{% endif %}
+
+{% js %}
+// https://github.com/craftcms/cms/pull/8017
+function compare(url) {
+    var content = $.get(url, function(data) {
+            var slideout = new Craft.Slideout(data, {
+                containerAttributes: {class: 'compare-container'}
+            });
+        })
+        .fail(function() {
+            alert("error");
+        })
+}
+{% endjs %}
 
 {% css %}
 .drafts-warning {
@@ -101,4 +123,32 @@
 .drafts-noteditable {
     background-color: #EBF2FA !important;
 }
+
+.field-diff {
+    margin-bottom: 36px;
+}
+
+.field-diff-level-2 {
+    margin-left: 24px;
+}
+
+.field-diff-blockname {
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 12px;
+}
+
+.compare-container {
+    overflow-y: scroll;
+}
+
+.field-diff-new {
+    color: green;
+}
+.field-diff-deleted {
+    color: red;
+}
+
+
 {% endcss %}

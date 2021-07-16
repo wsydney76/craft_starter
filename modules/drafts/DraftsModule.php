@@ -33,6 +33,12 @@ class DraftsModule extends Module
             $event->roots['drafts'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
         }
         );
+        Event::on(
+            View::class,
+            View::EVENT_REGISTER_SITE_TEMPLATE_ROOTS, function(RegisterTemplateRootsEvent $event) {
+            $event->roots['drafts'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
+        }
+        );
 
         // Register translation category
         Craft::$app->i18n->translations['drafts'] = [
@@ -46,12 +52,13 @@ class DraftsModule extends Module
         $user = Craft::$app->user->identity;
         if ($user) {
             Craft::$app->view->hook('cp.entries.edit.meta', function(array $context) {
-                if ($context['entry'] === null) {
+                $entry = $context['entry'];
+                if ($entry === null) {
                     return '';
                 }
                 return Craft::$app->view->renderTemplate(
                     'drafts/draft_hints',
-                    ['entry' => $context['entry']]);
+                    ['entry' => $entry]);
             });
         }
 
