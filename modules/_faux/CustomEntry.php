@@ -1,6 +1,6 @@
 <?php
 
-namespace modules;
+namespace modules\_faux;
 
 use craft\behaviors\DraftBehavior;
 use craft\elements\Entry;

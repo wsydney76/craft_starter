@@ -20,7 +20,7 @@
  * @copyright Copyright (c) 2019 nystudio107
  */
 
-namespace modules;
+namespace modules\_faux;
 
 //use craft\commerce\elements\Order;
 //use craft\commerce\elements\Product;
