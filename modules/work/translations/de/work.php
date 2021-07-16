@@ -17,5 +17,14 @@ return [
     'Order' => 'Reihenfolge',
     'Title' => 'Titel',
     'Type' => 'Typ',
+    'Transfer to my account' => 'Zu meinem Account übertragen',
+    'Edits' => 'Bearbeitet',
+    'Could not update drafts table' => 'Konnte Drafts-Tabelle nicht updaten',
+    'Transfer other users provisional draft to own account' => 'Übertrage provisorische Entwürfe zu eigenem Account',
+    'Provisional draft transfered' => 'Provisorischer Entwurf übertragen',
+    'Transfer provisional Draft?' => 'Provisorischen Entwurf übertragen?',
+    'from' => 'from',
+    'to' => 'to',
+    'Transfer History' => 'Übertragungshistorie',
 
 ];

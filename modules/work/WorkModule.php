@@ -48,7 +48,7 @@ class WorkModule extends Module
         Craft::$app->i18n->translations['work'] = [
             'class' => PhpMessageSource::class,
             'sourceLanguage' => 'en',
-            'basePath' => __DIR__ . '/messages',
+            'basePath' => __DIR__ . '/translations',
             'allowOverrides' => true,
         ];
 
