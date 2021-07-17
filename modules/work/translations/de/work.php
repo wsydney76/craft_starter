@@ -34,5 +34,7 @@ return [
     'Transfer provisional Draft?' => 'Provisorischen Entwurf übertragen?',
     'Transfer to my account' => 'Zu meinem Account übertragen',
     'Status changed' => 'Status geändert',
+    'No open edits found' => 'No open edits found',
+    'My Open Edits' => 'Meine offenen Bearbeitungen',
 
 ];

@@ -6,14 +6,17 @@ use Craft;
 use craft\base\Element;
 use craft\elements\Entry;
 use craft\events\DefineBehaviorsEvent;
+use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterElementTableAttributesEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\RegisterUserPermissionsEvent;
 use craft\events\SetElementTableAttributeHtmlEvent;
 use craft\i18n\PhpMessageSource;
+use craft\services\Dashboard;
 use craft\services\UserPermissions;
 use craft\web\View;
 use modules\work\behaviors\WorkEntryBehavior;
+use modules\work\widgets\MyProvisionsalDraftsWidget;
 use yii\base\Event;
 use yii\base\Module;
 
@@ -84,6 +87,13 @@ class WorkModule extends Module
             ];
         }
         );
+
+        // Register Widgets
+        Event::on(
+            Dashboard::class,
+            Dashboard::EVENT_REGISTER_WIDGET_TYPES, function(RegisterComponentTypesEvent $event) {
+            $event->types[] = MyProvisionsalDraftsWidget::class;
+        });
 
         // Register element index column
         Event::on(

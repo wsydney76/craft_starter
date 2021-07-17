@@ -1,6 +1,6 @@
 assets:
   tempVolumeUid: 35c3b3f5-30e7-4780-9ae1-286ee8bd275e # Temporary Uploads
-dateModified: 1626529991
+dateModified: 1626531058
 email:
   fromEmail: $EMAIL_ADDRESS
   fromName: $EMAIL_SENDER
@@ -50,6 +50,7 @@ meta:
     58b2e318-26cc-47b8-bee2-81369731d72f: 'Body Content' # Body Content
     64c37a78-14f3-4dba-874a-4d4bdd5ba1ee: 'Site Name' # Site Name
     68e35a0b-3321-46c1-8595-341acf1a4aa6: Search # Search
+    70c1c09f-e41e-4275-9ce4-fe493b9fe72f: __blank__ # __blank__
     71fd1263-a3ef-4a3a-bdfe-991ded81c27d: 'Alt Text' # Alt Text
     72fdc33e-481f-40c0-80ad-c531e3a557c7: 'Site Logo' # Site Logo
     81dfb777-1307-40c9-ad9a-7d84f1c835ed: DateTime2 # DateTime2
