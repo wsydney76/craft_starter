@@ -101,14 +101,28 @@ class WorkModule extends Module
                 /** @var Entry $entry */
                 $entry = $event->sender;
                 $event->html = '';
-                $hasProvisionalDraft = Entry::find()
+                $hasOwnProvisionalDraft = Entry::find()
                     ->draftOf($entry)
                     ->provisionalDrafts(true)
                     ->draftCreator(Craft::$app->user->identity)
-                    ->site('*')
+                    ->site($entry->site)
+                    ->anyStatus()
                     ->exists();
-                if ($hasProvisionalDraft) {
-                    $event->html = '<span class="status active"></span>';
+                if ($hasOwnProvisionalDraft) {
+                    $event->html .= '<span class="status active"></span>';
+                }
+                $countProvisionalDrafts = Entry::find()
+                    ->draftOf($entry)
+                    ->provisionalDrafts(true)
+                    ->site($entry->site)
+                    ->anyStatus()
+                    ->count();
+                // Workaround because there is no ->draftCreator('not ...)
+                if ($hasOwnProvisionalDraft) {
+                    --$countProvisionalDrafts;
+                }
+                if ($countProvisionalDrafts) {
+                    $event->html .= '<span class="status"></span>';
                 }
             }
         }

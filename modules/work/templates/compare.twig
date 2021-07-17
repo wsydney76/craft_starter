@@ -6,25 +6,25 @@
 {% set isProvisionalDraft = craft.app.request.requiredQueryParam('isProvisionalDraft', false) %}
 
 {% if isProvisionalDraft %}
-    {% set entry = craft.entries.id(id).drafts(true).provisionalDrafts(true).siteId(siteId).one %}
+    {% set entry = craft.entries.id(id).drafts(true).anyStatus().provisionalDrafts(true).siteId(siteId).one %}
 {% else %}
-    {% set entry = craft.entries.id(id).drafts(true).siteId(siteId).one %}
+    {% set entry = craft.entries.id(id).drafts(true).anyStatus().siteId(siteId).one %}
 {% endif %}
 
 {% if not entry %}
     {% exit 404 %}
 {% endif %}
 
+{% set entry2 = entry.canonical %}
 
 {% set user = craft.users.id(entry.creatorId).one %}
 <p>
+    {{ entry.draftName }}:
     {{ 'Draft created by'|t('work') }} {{ user ? user.fullName : entry.creatorId }}, {{ 'last updated'|t('work') }}
     : {{ entry.dateUpdated|datetime }}
 </p>
 
-{% set entry2 = entry.canonical %}
-
-{% if  entry.canTransfer() %}
+{% if entry.canTransfer() %}
     <form method="post" class="transfer-form"
           onsubmit="return confirm('{{ 'Transfer provisional Draft?'|t('work') }}')">
         {{ csrfInput() }}
@@ -68,12 +68,44 @@
 
 {% if entry.slug != entry2.slug %}
     <div class="field-diff">
-        <h2>Slug</h2>
-        {{ entry.slug }}<br>
-        -------<br>
-        {{ entry2.slug }}
+        <h2>{{ 'Slug'|t('work') }}</h2>
+        {{ _self.attrDiff(entry.slug, entry2.slug) }}
     </div>
 {% endif %}
+
+{% if entry.authorId != entry2.authorId %}
+    <div class="field-diff">
+        <h2>{{ 'Author'|t('work') }}</h2>
+        {{ _self.attrDiff(entry.author.fullName, entry2.author.fullName) }}
+    </div>
+{% endif %}
+
+{% set date = entry.postDate ? entry.postDate|datetime : '' %}
+{% set date2 = entry2.postDate ? entry2.postDate|datetime : '' %}
+{% if date != date2 %}
+    <div class="field-diff">
+        <h2>{{ 'Post Date'|t('work') }}</h2>
+        {{ _self.attrDiff(date, date2) }}
+    </div>
+{% endif %}
+
+{% set date = entry.expiryDate ? entry.expiryDate|datetime : '' %}
+{% set date2 = entry2.expiryDate ? entry2.expiryDate|datetime : '' %}
+{% if date != date2 %}
+    <div class="field-diff">
+        <h2>{{ 'Expiry Date'|t('work') }}</h2>
+        {{ _self.attrDiff(date, date2) }}
+    </div>
+{% endif %}
+
+{% if entry.status != entry2.status %}
+    <div class="field-diff">
+        <h2>{{ 'Status'|t('work') }}</h2>
+        {{ _self.attrDiff(entry.status, entry2.status) }}
+    </div>
+{% endif %}
+
+
 
 {{ _self.elementDiff(entry, entry2) }}
 
@@ -140,21 +172,19 @@
 
                 {# Deleted blocks #}
                 {% set draftBlocksCanonicalIds = draftBlocks|map(b => b.canonicalId) %}
-                {% for block in currentBlocks %}
-                    {% if block.id not in draftBlocksCanonicalIds %}
-                        <div class="matrixblock field-diff-block">
-                            <div class="titlebar field-diff-blockname field-diff-deleted">
-                                <div>
-                                    {{ block.type.name }} - {{ 'Deleted'|t('work') }}
-                                </div>
-                                <div>
-                                    {{ 'Order'|t('work') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
-                                    / {{ 'Deleted'|t('work') }}
-                                </div>
+                {% for block in currentBlocks if block.id not in draftBlocksCanonicalIds %}
+                    <div class="matrixblock field-diff-block">
+                        <div class="titlebar field-diff-blockname field-diff-deleted">
+                            <div>
+                                {{ block.type.name }} - {{ 'Deleted'|t('work') }}
                             </div>
-                            {{ _self.blockContent(block) }}
+                            <div>
+                                {{ 'Order'|t('work') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
+                                / {{ 'Deleted'|t('work') }}
+                            </div>
                         </div>
-                    {% endif %}
+                        {{ _self.blockContent(block) }}
+                    </div>
                 {% endfor %}
 
             {% elseif not (className(field) starts with "craft") %}
@@ -181,7 +211,6 @@
             </div>
         {% endif %}
     {% endfor %}
-
 {% endmacro %}
 
 
@@ -207,6 +236,7 @@
         </div>
     </div>
 {% endmacro %}
+
 
 {% macro fieldValue(field, value) %}
     {% switch className(field) %}

@@ -107,7 +107,13 @@
                     isDraft: entry.isDraft,
                     isProvisionalDraft: entry.isProvisionalDraft()
                 }) }}')">
-            {{ 'Compare with current'|t('work') }}
+            {% if entry.isProvisionalDraft() %}
+                {{ 'Compare Edited with Current'|t('work') }}
+            {% else %}
+                {{ 'Compare Draft with Current'|t('work') }}
+            {% endif %}
+
+
         </button>
     </div>
 {% endif %}
@@ -167,7 +173,7 @@ function compare(url) {
 }
 
 .field-diff-block {
-    margin-left: 24px;
+    margin-left: 14px;
 }
 
 .field-diff-blockname {

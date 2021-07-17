@@ -39,15 +39,21 @@ class WorkEntryBehavior extends Behavior
         }
 
         return true;
-
     }
 
-    public function getTransferHistory() {
+    public function getTransferHistory()
+    {
         /** @var Entry $entry */
+
         $entry = $this->owner;
-        if (! $entry->isProvisionalDraft) {
+        if (!$entry->isProvisionalDraft) {
             return [];
         }
+
+        if (!Craft::$app->db->tableExists(TransferHistoryRecord::tableName())) {
+            return [];
+        }
+
         return TransferHistoryRecord::find()
             ->where(['draftId' => $entry->draftId])
             ->orderBy('dateCreated desc')

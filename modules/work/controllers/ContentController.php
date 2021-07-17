@@ -37,7 +37,6 @@ class ContentController extends Controller
             throw new InvalidArgumentException();
         }
 
-
         try {
             $recordsUpdated = Db::update(Table::DRAFTS, [
                 'creatorId' => $user->id
@@ -55,15 +54,17 @@ class ContentController extends Controller
             return $this->redirectToPostedUrl();
         }
 
-        $creator = User::findOne($creatorId);
-        $transferHistoryRecord = new TransferHistoryRecord([
-            'draftId' => $draftId,
-            'fromUserId' => $creatorId,
-            'toUserId' => $user->id,
-            'fromUserName' => $creator ? $creator->fullName : $creatorId,
-            'toUserName' => $user->fullName
-        ]);
-        $transferHistoryRecord->save();
+        if (Craft::$app->db->tableExists(TransferHistoryRecord::tableName())) {
+            $creator = User::findOne($creatorId);
+            $transferHistoryRecord = new TransferHistoryRecord([
+                'draftId' => $draftId,
+                'fromUserId' => $creatorId,
+                'toUserId' => $user->id,
+                'fromUserName' => $creator ? $creator->fullName : $creatorId,
+                'toUserName' => $user->fullName
+            ]);
+            $transferHistoryRecord->save();
+        }
 
         $session->setNotice(Craft::t('work', 'Provisional draft transfered'));
         return $this->redirectToPostedUrl();
