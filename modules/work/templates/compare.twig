@@ -94,40 +94,58 @@
             {% set value = element.fieldValue(field.handle) %}
             {% set value2 = element2.fieldValue(field.handle) %}
 
-
             {% if className(field) == "craft\\fields\\Matrix" %}
 
-                {% for block in value.all %}
-                    {% set block2 = block.canonical %}
-                    {% set isNew = block2.id == block.id %}
-                    <div class="matrixblock field-diff-block">
-                        <div class="titlebar field-diff-blockname {{ isNew ? 'field-diff-new' }}">
-                            <div>
-                                {{ block.type.name|t }}
-                            </div>
-                            <div>
-                                {{ 'Order'|t('work') }}: {{ 'Draft'|t('work') }}: {{ block.sortOrder }} /
-                                {{ 'Current'|t('work') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
-                            </div>
-                        </div>
+                {% set draftBlocks = value.all %}
+                {% set currentBlocks = value2.all %}
 
-                        {% if isNew %}
-                            {{ _self.blockContent(block) }}
-                        {% else %}
-                            {{ _self.elementDiff(block, block2, 1) }}
+                {% for block in draftBlocks %}
+                    {% set block2 = block.canonical %}
+                    {% set blockIsNew = block2.id == block.id %}
+
+                    {% set blockHasChanged = false %}
+                    {% set blockHasMoved = block.sortOrder != block2.sortOrder %}
+
+                    {% for field in block.fieldLayout.fields %}
+                        {% if block.isFieldModified(field.handle) %}
+                            {% set blockHasChanged = true %}
                         {% endif %}
-                    </div>
+                    {% endfor %}
+
+                    {% if blockIsNew or blockHasChanged or blockHasMoved %}
+                        <div class="matrixblock field-diff-block">
+                            <div class="titlebar field-diff-blockname {{ blockIsNew ? 'field-diff-new' }}">
+                                <div>
+                                    {{ block.type.name|t }}
+                                    {{ blockIsNew ? " - #{'New'|t('work')}" }}
+                                    {{ blockHasMoved and not blockHasChanged and not blockIsNew ? " - #{'Moved without changes'|t('work')}" }}
+                                </div>
+                                <div>
+                                    {{ 'Order'|t('work') }}: {{ 'Draft'|t('work') }}: {{ block.sortOrder }} /
+                                    {{ 'Current'|t('work') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
+                                </div>
+                            </div>
+
+                            {% if blockIsNew %}
+                                {{ _self.blockContent(block) }}
+                            {% elseif blockHasMoved and not blockHasChanged %}
+                                {{ _self.blockContent(block, 1) }}
+                            {% else %}
+                                {{ _self.elementDiff(block, block2, 1) }}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
                 {% endfor %}
 
                 {# Deleted blocks #}
-                {% set draftBlocks = value.all %}
-                {% set currentBlockIds = value2.ids %}
-                {% for block in draftBlocks %}
-                    {% if block.canonicalId not in currentBlockIds %}
+                {% set draftBlocksCanonicalIds = draftBlocks|map(b => b.canonicalId) %}
+                {% for block in currentBlocks %}
+                    {% if block.id not in draftBlocksCanonicalIds %}
                         <div class="matrixblock field-diff-block">
                             <div class="titlebar field-diff-blockname field-diff-deleted">
                                 <div>
-                                    {{ 'Type'|t('work') }}: {{ block.type.name }}
+                                    {{ block.type.name }} - {{ 'Deleted'|t('work') }}
                                 </div>
                                 <div>
                                     {{ 'Order'|t('work') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
@@ -154,12 +172,14 @@
 
 {% endmacro %}
 
-{% macro blockContent(block) %}
+{% macro blockContent(block, count = 9999) %}
     {% for field in block.fieldLayout.fields %}
-        <div class="field-diff field-diff-level-1">
-            <h2>{{ field.name }}</h2>
-            {{ _self.fieldValue(field, block.fieldValue(field.handle)) }}
-        </div>
+        {% if loop.index <= count %}
+            <div class="field-diff field-diff-level-1">
+                <h2>{{ field.name }}</h2>
+                {{ _self.fieldValue(field, block.fieldValue(field.handle)) }}
+            </div>
+        {% endif %}
     {% endfor %}
 
 {% endmacro %}
