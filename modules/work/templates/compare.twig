@@ -150,7 +150,7 @@
                                     {{ block.type.name|t }}
                                     {{ blockIsNew ? " - #{'New'|t('work')}" }}
                                     {{ blockHasMoved and not blockHasChanged and not blockIsNew ? " - #{'Moved without changes'|t('work')}" }}
-                                    {{ blockStatusChanged ? "- #{'Status changed'|t('work')} from #{block.status|t('work')} to #{block2.status|t('work')}"}}
+                                    {{ blockStatusChanged ? "- #{'Status changed'|t('work')} from #{block.status|t('work')} to #{block2.status|t('work')}" }}
                                 </div>
                                 <div>
                                     {{ 'Order'|t('work') }}: {{ 'Draft'|t('work') }}: {{ block.sortOrder }} /
@@ -261,7 +261,20 @@
         {% endfor %}
 
     {% case "craft\\fields\\Date" %}
-        {{ value ? value|datetime }}
+        {% if value %}
+            {% if field.showTime %}
+                {% if field.showTimeZone %}
+                    {{ value|datetime(null, value.getTimeZone()) }}
+                    {{ value.getTimezone().getName() }}
+                    <br>
+                    {{ value|datetime }} {{ 'System Time Zone'|t }} ({{ craft.app.timeZone }})
+                {% else %}
+                    {{ value|datetime }}
+                {% endif %}
+            {% else %}
+                {{ value|date }}
+            {% endif %}
+        {% endif %}
 
     {% case "craft\\fields\\Dropdown" %}
         {{ value.label }}

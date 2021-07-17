@@ -1,6 +1,6 @@
 assets:
   tempVolumeUid: 35c3b3f5-30e7-4780-9ae1-286ee8bd275e # Temporary Uploads
-dateModified: 1626513882
+dateModified: 1626529991
 email:
   fromEmail: $EMAIL_ADDRESS
   fromName: $EMAIL_SENDER
@@ -52,6 +52,7 @@ meta:
     68e35a0b-3321-46c1-8595-341acf1a4aa6: Search # Search
     71fd1263-a3ef-4a3a-bdfe-991ded81c27d: 'Alt Text' # Alt Text
     72fdc33e-481f-40c0-80ad-c531e3a557c7: 'Site Logo' # Site Logo
+    81dfb777-1307-40c9-ad9a-7d84f1c835ed: DateTime2 # DateTime2
     90b94f80-c868-4c22-8bda-3abd94d99530: 'Gallery Thumbnail' # Gallery Thumbnail
     91e82c8e-91b5-456d-a06b-bd9e86bb5059: Entries # Entries
     97e0b749-86e3-49f1-918e-9b88758928f4: English # English
@@ -72,6 +73,7 @@ meta:
     a6d13a9f-d4ed-41e5-be7f-c93dcb679633: Text # Text
     ae7d91c8-8743-46bb-a954-438a27946b97: 'Primary Navigation' # Primary Navigation
     b026d20d-f781-469f-8c4c-5f5c65c66027: Target # Target
+    b40dbfe9-2815-4f06-8ec3-c20f2a587460: DateTime1 # DateTime1
     bad8f5ab-fcf4-4fec-9ade-7652b14f376e: Level # Level
     bbbb120d-5d71-4e7c-a164-487e401c4f2c: Deutsch # Deutsch
     bc0e0972-fef4-42a5-96bd-e0e6f040f421: Embed # Embed
@@ -84,6 +86,7 @@ meta:
     cb1283e0-fe53-4c82-9ba4-8eada6d76a1f: 'Content Image Full Height' # Content Image Full Height
     cbbf12d2-97db-4750-8f2d-ea5a5ca1f975: Embeds # Embeds
     d7b42e42-18f7-4b59-a57e-c40b4d7766f7: 'Featured Image' # Featured Image
+    d34f3a99-7025-4a72-86aa-cb2ccaf92500: Date1 # Date1
     d80ee1f4-e752-4e38-860a-c5f26790bf89: Caption # Caption
     d420edab-c758-4dce-8b02-e17b23ed0e60: Attribution # Attribution
     d90241f5-7ae6-4bad-a6ae-c8caa56979b3: Post # Post
