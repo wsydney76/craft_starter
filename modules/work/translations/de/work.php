@@ -16,6 +16,7 @@ return [
     'Edit' => 'Bearbeitet',
     'Edited' => 'Bearbeitet',
     'Edits' => 'Bearbeitet',
+    'Enable compare with Current' => 'Vergleich mit Aktuell ermöglichen',
     'Expiry Date' => 'Ablaufdatum',
     'from' => 'from',
     'last updated' => 'zuletzt bearbeitet',
@@ -32,5 +33,6 @@ return [
     'Transfer other users provisional draft to own account' => 'Übertrage provisorische Entwürfe zu eigenem Account',
     'Transfer provisional Draft?' => 'Provisorischen Entwurf übertragen?',
     'Transfer to my account' => 'Zu meinem Account übertragen',
+    'Status changed' => 'Status geändert',
 
 ];

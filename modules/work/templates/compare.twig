@@ -39,7 +39,6 @@
 
 {% if entry.isProvisionalDraft() %}
     {% set transferHistories = entry.transferHistory %}
-
     {% if transferHistories %}
         <h3>{{ 'Transfer History'|t('work') }}</h3>
         <div class="transfer-history">
@@ -106,7 +105,6 @@
 {% endif %}
 
 
-
 {{ _self.elementDiff(entry, entry2) }}
 
 
@@ -128,8 +126,8 @@
 
             {% if className(field) == "craft\\fields\\Matrix" %}
 
-                {% set draftBlocks = value.all %}
-                {% set currentBlocks = value2.all %}
+                {% set draftBlocks = value.anyStatus().all %}
+                {% set currentBlocks = value2.anyStatus().all %}
 
                 {% for block in draftBlocks %}
                     {% set block2 = block.canonical %}
@@ -137,6 +135,7 @@
 
                     {% set blockHasChanged = false %}
                     {% set blockHasMoved = block.sortOrder != block2.sortOrder %}
+                    {% set blockStatusChanged = block.status != block2.status %}
 
                     {% for field in block.fieldLayout.fields %}
                         {% if block.isFieldModified(field.handle) %}
@@ -144,13 +143,14 @@
                         {% endif %}
                     {% endfor %}
 
-                    {% if blockIsNew or blockHasChanged or blockHasMoved %}
+                    {% if blockIsNew or blockHasChanged or blockHasMoved or blockStatusChanged %}
                         <div class="matrixblock field-diff-block">
                             <div class="titlebar field-diff-blockname {{ blockIsNew ? 'field-diff-new' }}">
                                 <div>
                                     {{ block.type.name|t }}
                                     {{ blockIsNew ? " - #{'New'|t('work')}" }}
                                     {{ blockHasMoved and not blockHasChanged and not blockIsNew ? " - #{'Moved without changes'|t('work')}" }}
+                                    {{ blockStatusChanged ? "- #{'Status changed'|t('work')} from #{block.status|t('work')} to #{block2.status|t('work')}"}}
                                 </div>
                                 <div>
                                     {{ 'Order'|t('work') }}: {{ 'Draft'|t('work') }}: {{ block.sortOrder }} /
@@ -162,6 +162,8 @@
                                 {{ _self.blockContent(block) }}
                             {% elseif blockHasMoved and not blockHasChanged %}
                                 {{ _self.blockContent(block, 1) }}
+                            {% elseif blockStatusChanged and not blockHasChanged %}
+                                {{ _self.blockContent(block) }}
                             {% else %}
                                 {{ _self.elementDiff(block, block2, 1) }}
                             {% endif %}
@@ -259,7 +261,7 @@
         {% endfor %}
 
     {% case "craft\\fields\\Date" %}
-        {{ value|datetime }}
+        {{ value ? value|datetime }}
 
     {% case "craft\\fields\\Dropdown" %}
         {{ value.label }}
