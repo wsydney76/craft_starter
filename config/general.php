@@ -32,6 +32,9 @@ return [
         // Whether to send the 'Powered by Craft' http header
         'sendPoweredByHeader' => false,
 
+        // Whether a Content-Length header should be sent with responses.
+        'sendContentLengthHeader' => true,
+
         // Whether Craft should create a database backup before applying a new system update
         'backupOnUpdate' => true,
 
