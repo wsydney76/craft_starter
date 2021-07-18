@@ -1,0 +1,10 @@
+{% if block.features %}
+    <table>
+        {% for feature in block.features %}
+            <tr>
+                <td class="font-bold">{{ feature['col1'] }}:</td>
+                <td class="pl-4">{{ feature['col2'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}

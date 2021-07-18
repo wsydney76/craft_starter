@@ -35,6 +35,7 @@ fieldLayouts:
         sortOrder: 1
 fields:
   25c13312-e79c-4f00-b607-88fab9e35920: # __blank__
+    columnSuffix: null
     contentColumnType: boolean
     fieldGroup: null
     handle: showDescription
@@ -49,6 +50,7 @@ fields:
     translationMethod: none
     type: craft\fields\Lightswitch
   eb61a6f2-9d63-4730-8ccf-daebb6ba0824: # __blank__
+    columnSuffix: null
     contentColumnType: boolean
     fieldGroup: null
     handle: showTitle
@@ -63,6 +65,7 @@ fields:
     translationMethod: none
     type: craft\fields\Lightswitch
   ec6b5c42-b633-4465-8f26-2d43d78befe8: # Asset
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: asset

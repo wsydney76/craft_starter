@@ -44,6 +44,7 @@ fieldLayouts:
         sortOrder: 1
 fields:
   7d7cf5ed-7c41-4d49-ba86-cef811f69683: # Color
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: color
@@ -79,6 +80,7 @@ fields:
     translationMethod: none
     type: craft\fields\Dropdown
   133bba22-df33-4432-a49f-198e9c071f22: # Display
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: display
@@ -125,6 +127,7 @@ fields:
     translationMethod: none
     type: craft\fields\Dropdown
   b026d20d-f781-469f-8c4c-5f5c65c66027: # Target
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: target
@@ -146,6 +149,7 @@ fields:
     translationMethod: site
     type: craft\fields\Entries
   fa76440e-c84c-4d11-b665-375f32514aaa: # Caption
+    columnSuffix: null
     contentColumnType: text
     fieldGroup: null
     handle: caption

@@ -1,0 +1,222 @@
+{% set draftPermission = 'editpeerentrydrafts:' ~ entry.section.uid %}
+
+{# Compare opened draft #}
+<div class="compare-current">
+    {% if  entry.isCanonical %}
+        <div id="draft-new" style="display:none">
+            <button type="button" class="btn"
+                    onclick="compare(-1, {{ entry.siteId }}, 1)">
+                {{ 'Compare Edited with Current'|t('work') }}
+            </button>
+        </div>
+    {% else %}
+        <button type="button" class="btn"
+                onclick="compare({{ entry.draftId }}, {{ entry.siteId }}, {{ entry.isProvisionalDraft() ?: 0 }})">
+            {% if entry.isProvisionalDraft() %}
+                {{ 'Compare Edited with Current'|t('work') }}
+            {% else %}
+                {{ 'Compare Draft with Current'|t('work') }}
+            {% endif %}
+        </button>
+    {% endif %}
+</div>
+
+{# Show existing drafts --------------------------------------------------------------------- #}
+
+{% set query = craft.entries
+    .draftOf(entry.canonical)
+    .site('*')
+    .unique()
+    .anyStatus()
+    .preferSites([entry.site.handle])
+    .orderBy('dateUpdated desc') %}
+
+{% if entry.isDraft %}
+    {% set query = query.id("not #{entry.id}") %}
+{% endif %}
+
+{% set drafts = query.all %}
+{% if drafts %}
+
+    {% set textOne = 'msg_draftwarningone'|t('work') %}
+    {% set textMultiple = 'msg_draftwarningmultiple'|t('work') %}
+
+    <div class="meta read-only warning">
+        <p>{{ '{count,plural,=1{Open draft} other{Open drafts}}'|t('work', {count: drafts|length}) }}:</p>
+        <div class="flex flex-wrap">
+            {% for draft in drafts %}
+                {% set canEdit = (draft.creatorId == currentUser.id or currentUser.can(draftPermission)) %}
+                {% if canEdit %}
+                    {{ tag('a', {
+                        class: ['btn', 'drafts-warning'],
+                        title: draft.draftName,
+                        href: "#{ draft.cpEditUrl }&draftId=#{ draft.draftId }",
+                        text: "#{'Edit'|t('work')}: #{draft.draftName}"
+                    }) }}
+                {% else %}
+                    {% set user = craft.users.id(draft.creatorId).one %}
+                    {{ tag('button', {
+                        type: 'button',
+                        class: ['btn', 'drafts-warning', 'drafts-noteditable'],
+                        title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
+                        text: "#{draft.draftName}",
+                        onclick:"compare(#{ draft.draftId }, #{ draft.siteId }, #{ draft.isProvisionalDraft() ?: 0})"
+                    }) }}
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endif %}
+
+
+{# Show existing provisional drafts --------------------------------------------------------------------- #}
+
+{% set query = craft.entries
+    .draftOf(entry.canonical)
+    .provisionalDrafts(true)
+    .id("not #{entry.id}")
+    .anyStatus()
+    .site('*')
+    .unique()
+    .preferSites([entry.site.handle])
+    .orderBy('dateUpdated desc') %}
+
+{% set drafts = query.all %}
+{% if drafts %}
+
+    <div class="meta read-only warning">
+        <p>{{ '{count,plural,=1{Open edit} other{Open edits}}'|t('work', {count: drafts|length}) }}:</p>
+        <div class="flex flex-wrap">
+            {% for draft in drafts %}
+                {% set user = craft.users.id(draft.creatorId).one %}
+                {% if user %}
+                    {{ tag('button', {
+                        type: 'button',
+                        class: ['btn', 'drafts-warning', 'drafts-noteditable'],
+                        title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
+                        text: "#{user.fullName} #{draft.dateUpdated|date}",
+                        onclick:"compare(#{ draft.draftId }, #{ draft.siteId }, #{ draft.isProvisionalDraft()})"
+                    }) }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endif %}
+
+{# Separate js tag because twig stuff will break PhpStorms syntax check #}
+{% js %}
+compareUrl = "{{ cpUrl('work/compare') }}"
+newDraftId = -1
+{% endjs %}
+
+{% js %}
+// https://github.com/craftcms/cms/pull/8017
+function compare(draftId, siteId, isProvisionalDraft) {
+
+    if (draftId == -1)
+        draftId = newDraftId
+
+    url = `${compareUrl}?draftId=${draftId}&siteId=${siteId}&isProvisionalDraft=${isProvisionalDraft}`
+    $.get(url, function(data) {
+            var slideout = new Craft.Slideout(data, {
+                containerAttributes: {class: 'compare-container'}
+            });
+        })
+        .fail(function() {
+            alert("Error");
+        })
+}
+
+if (window.draftEditor) {
+    window.draftEditor.on('createProvisionalDraft', function() {
+        newDraftId = window.draftEditor.settings.draftId
+        $('#draft-new').css('display', '')
+    });
+
+}
+
+{% endjs %}
+
+{% css %}
+.compare-container {
+    overflow-y: scroll;
+}
+
+.drafts-warning {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.drafts-noteditable {
+    background-color: #EBF2FA !important;
+}
+
+
+.field-diff {
+    margin-bottom: 14px;
+}
+
+.compare-container > .field-diff {
+    padding-top: 8px;
+    border-top: 1px solid #cccccc;
+}
+
+.field-diff-level-2 {
+    margin-left: 24px;
+}
+
+.field-diff-table {
+    display: flex;
+
+}
+
+.field-diff-table div {
+    margin-right: 4px;
+    width: 50%;
+}
+
+.field-diff-block {
+    margin-left: 14px;
+}
+
+.field-diff-blockname {
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 12px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.field-diff-image {
+    border-radius: 3px;
+}
+
+.field-diff .matrixblock > .titlebar {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+.matrixblock > .titlebar.field-diff-new {
+    color: green !important;
+}
+
+.matrixblock > .titlebar.field-diff-deleted {
+    color: red !important;
+}
+
+.transfer-form, .transfer-history, .compare-current {
+    margin-bottom: 24px;
+}
+
+.field-diff-table img {
+    max-width: 200px !important;
+}
+
+{% endcss %}

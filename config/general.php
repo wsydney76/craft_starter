@@ -32,8 +32,11 @@ return [
         // Whether to send the 'Powered by Craft' http header
         'sendPoweredByHeader' => false,
 
+        // Whether a Content-Length header should be sent with responses.
+        'sendContentLengthHeader' => true,
+
         // Whether Craft should create a database backup before applying a new system update
-        'backupOnUpdate' => false,
+        'backupOnUpdate' => true,
 
         // Whether to enable Craft's template {% cache %} tag on a global basis
         'enableTemplateCaching' => false,
@@ -43,13 +46,10 @@ return [
         'enableGql' => true,
 
         // Whether to enable caching of GraphQL queries
-        'enableGraphQlCaching' => false,
+        'enableGraphqlCaching' => false,
 
         // Max No. of revisions
         'maxRevisions' => 10,
-
-        // Whether drafts should be saved automatically as they are edited.
-        'autosaveDrafts' => false,
 
         // Whether uploaded filenames with non-ASCII characters should be converted to ASCII
         'convertFilenamesToAscii' => true,
@@ -59,6 +59,9 @@ return [
 
         // Whether images transforms should be generated before page load.
         'generateTransformsBeforePageLoad' => true,
+
+        // Whether asset URLs should be revved so browsers don’t load cached versions when they’re modified.
+        'revAssetUrls' => true,
 
         //The prefix that should be prepended to HTTP error status codes when determining the path to look for an error’s template.
         'errorTemplatePrefix' => '_errors/',
@@ -141,7 +144,7 @@ return [
         'cacheElementQueries' => true,
 
         // Whether to enable caching of GraphQL queries
-        'enableGraphQlCaching' => true,
+        'enableGraphqlCaching' => true,
 
         // Whether front end requests should respond with X-Robots-Tag: none HTTP headers
         'disallowRobots' => false
