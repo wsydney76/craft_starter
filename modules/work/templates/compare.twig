@@ -1,3 +1,5 @@
+{% import 'work/compare/macros.twig' as lib %}
+
 {# @var transferHistory \modules\work\records\TransferHistoryRecord #}
 {% set siteId = craft.app.request.requiredQueryParam('siteId') %}
 {% set draftId = craft.app.request.requiredQueryParam('draftId') %}
@@ -10,7 +12,7 @@
     {% exit 404 %}
 {% endif %}
 
-{% set entry2 = entry.canonical %}
+{% set canonicalEntry = entry.canonical %}
 
 {% set user = craft.users.id(entry.creatorId).one %}
 <p>
@@ -19,302 +21,21 @@
     : {{ entry.dateUpdated|datetime }}
 </p>
 
-{% if entry.canTransfer() %}
-    <form method="post" class="transfer-form"
-          onsubmit="return confirm('{{ 'Transfer provisional Draft?'|t('work') }}')">
-        {{ csrfInput() }}
-        {{ actionInput('work/content/transfer') }}
-        {{ hiddenInput('id', entry.id) }}
-        {{ hiddenInput('draftId', entry.draftId|hash) }}
-        {{ hiddenInput('creatorId', entry.creatorId|hash) }}
-        <button type="submit" class="btn submit">{{ 'Transfer to my account'|t('work') }}</button>
-    </form>
-
-{% endif %}
-
-{% if entry.isProvisionalDraft() %}
-    {% set transferHistories = entry.transferHistory %}
-    {% if transferHistories %}
-        <h3>{{ 'Transfer History'|t('work') }}</h3>
-        <div class="transfer-history">
-            {% for transferHistory in transferHistories %}
-                <div>
-                    {{ craft.app.formatter.asDatetime(transferHistory.dateCreated) }}
-                    {{ 'from'|t('work') }} {{ transferHistory.fromUserName }}
-                    {{ 'to'|t('work') }} {{ transferHistory.toUserName }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endif %}
+{% include 'work/compare/transfer_provisionalDraft.twig' with {
+   entry
+} only %}
 
 <h1>
-    {{ _self.attrDiff('Edits'|t('work'), 'Current'|t('work')) }}
+    {{ lib.attrDiff('Edits'|t('work'), 'Current'|t('work')) }}
 </h1>
 
-{% if entry.title != entry2.title %}
-    <div class="field-diff">
-        <h2>{{ 'Title'|t('work') }}</h2>
-        {{ _self.attrDiff(entry.title, entry2.title) }}
-    </div>
-{% endif %}
-
-{% if entry.slug != entry2.slug %}
-    <div class="field-diff">
-        <h2>{{ 'Slug'|t('work') }}</h2>
-        {{ _self.attrDiff(entry.slug, entry2.slug) }}
-    </div>
-{% endif %}
-
-{% if entry.authorId != entry2.authorId %}
-    <div class="field-diff">
-        <h2>{{ 'Author'|t('work') }}</h2>
-        {{ _self.attrDiff(entry.author.fullName, entry2.author.fullName) }}
-    </div>
-{% endif %}
-
-{% set date = entry.postDate ? entry.postDate|datetime : '' %}
-{% set date2 = entry2.postDate ? entry2.postDate|datetime : '' %}
-{% if date != date2 %}
-    <div class="field-diff">
-        <h2>{{ 'Post Date'|t('work') }}</h2>
-        {{ _self.attrDiff(date, date2) }}
-    </div>
-{% endif %}
-
-{% set date = entry.expiryDate ? entry.expiryDate|datetime : '' %}
-{% set date2 = entry2.expiryDate ? entry2.expiryDate|datetime : '' %}
-{% if date != date2 %}
-    <div class="field-diff">
-        <h2>{{ 'Expiry Date'|t('work') }}</h2>
-        {{ _self.attrDiff(date, date2) }}
-    </div>
-{% endif %}
-
-{% if entry.status != entry2.status %}
-    <div class="field-diff">
-        <h2>{{ 'Status'|t('work') }}</h2>
-        {{ _self.attrDiff(entry.status, entry2.status) }}
-    </div>
-{% endif %}
+{# Compare default attributes #}
+{% include 'work/compare/attributes_diff.twig' with {
+    entry, canonicalEntry
+} only %}
 
 
-{{ _self.elementDiff(entry, entry2) }}
+{# Compare custom fields #}
+{{ lib.elementDiff(entry, canonicalEntry) }}
 
-
-{% macro elementDiff(element, element2, level = 1) %}
-    {% for field in element.fieldLayout.fields %}
-        {{ _self.fieldDiff(element, element2, field, level) }}
-    {% endfor %}
-{% endmacro %}
-
-
-{% macro fieldDiff(element, element2, field, level = 1) %}
-    {% if element.isFieldModified(field.handle) %}
-        <div class="field-diff field-diff-level-{{ level }}">
-
-            <h2>{{ field.name == '__blank__' ? field.handle|capitalize : field.name|t }}</h2>
-
-            {% set value = element.fieldValue(field.handle) %}
-            {% set value2 = element2.fieldValue(field.handle) %}
-
-            {% if className(field) == "craft\\fields\\Matrix" %}
-
-                {% set draftBlocks = value.anyStatus().all %}
-                {% set currentBlocks = value2.anyStatus().all %}
-
-                {% for block in draftBlocks %}
-                    {% set block2 = block.canonical %}
-                    {% set blockIsNew = block2.id == block.id %}
-
-                    {% set blockHasChanged = false %}
-                    {% set blockHasMoved = block.sortOrder != block2.sortOrder %}
-                    {% set blockStatusChanged = block.status != block2.status %}
-
-                    {% for field in block.fieldLayout.fields %}
-                        {% if block.isFieldModified(field.handle) %}
-                            {% set blockHasChanged = true %}
-                        {% endif %}
-                    {% endfor %}
-
-                    {% if blockIsNew or blockHasChanged or blockHasMoved or blockStatusChanged %}
-                        <div class="matrixblock field-diff-block">
-                            <div class="titlebar field-diff-blockname {{ blockIsNew ? 'field-diff-new' }}">
-                                <div>
-                                    {{ block.type.name|t }}
-                                    {{ blockIsNew ? " - #{'New'|t('work')}" }}
-                                    {{ blockHasMoved and not blockHasChanged and not blockIsNew ? " - #{'Moved without changes'|t('work')}" }}
-                                    {{ blockStatusChanged ? "- #{'Status changed'|t('work')} from #{block.status|t('work')} to #{block2.status|t('work')}" }}
-                                </div>
-                                <div>
-                                    {{ 'Order'|t('work') }}: {{ 'Draft'|t('work') }}: {{ block.sortOrder }} /
-                                    {{ 'Current'|t('work') }}: {{ block2.id != block.id ? block2.sortOrder : '-' }}
-                                </div>
-                            </div>
-
-                            {% if blockIsNew %}
-                                {{ _self.blockContent(block) }}
-                            {% elseif blockHasMoved and not blockHasChanged %}
-                                {{ _self.blockContent(block, 1) }}
-                            {% elseif blockStatusChanged and not blockHasChanged %}
-                                {{ _self.blockContent(block) }}
-                            {% else %}
-                                {{ _self.elementDiff(block, block2, 1) }}
-                            {% endif %}
-                        </div>
-                    {% endif %}
-
-                {% endfor %}
-
-                {# Deleted blocks #}
-                {% set draftBlocksCanonicalIds = draftBlocks|map(b => b.canonicalId) %}
-                {% for block in currentBlocks if block.id not in draftBlocksCanonicalIds %}
-                    <div class="matrixblock field-diff-block">
-                        <div class="titlebar field-diff-blockname field-diff-deleted">
-                            <div>
-                                {{ block.type.name }} - {{ 'Deleted'|t('work') }}
-                            </div>
-                            <div>
-                                {{ 'Order'|t('work') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
-                                / {{ 'Deleted'|t('work') }}
-                            </div>
-                        </div>
-                        {{ _self.blockContent(block) }}
-                    </div>
-                {% endfor %}
-
-            {% elseif not (className(field) starts with "craft") %}
-                {# This template should import and use the attrDiff macro #}
-                {% set template = className(field)|replace({'\\':'_'}) %}
-                {% include ["work/fields/#{template}", "work/fields/unknown"] with {
-                    field, value, value2
-                } only %}
-
-            {% else %}
-                {{ _self.valueDiff(field, value, value2) }}
-            {% endif %}
-        </div>
-    {% endif %}
-
-{% endmacro %}
-
-{% macro blockContent(block, count = 9999) %}
-    {% for field in block.fieldLayout.fields %}
-        {% if loop.index <= count %}
-            <div class="field-diff field-diff-level-1">
-                <h2>{{ field.name }}</h2>
-                {{ _self.fieldValue(field, block.fieldValue(field.handle)) }}
-            </div>
-        {% endif %}
-    {% endfor %}
-{% endmacro %}
-
-
-{% macro attrDiff(value, value2) %}
-    <div class="field-diff-table">
-        <div>
-            {{ value }}
-        </div>
-        <div>
-            {{ value2 }}
-        </div>
-    </div>
-{% endmacro %}
-
-
-{% macro valueDiff(field, value, value2) %}
-    <div class="field-diff-table">
-        <div>
-            {{ _self.fieldValue(field, value) }}
-        </div>
-        <div>
-            {{ _self.fieldValue(field, value2) }}
-        </div>
-    </div>
-{% endmacro %}
-
-
-{% macro fieldValue(field, value) %}
-    {% switch className(field) %}
-
-    {% case "craft\\fields\\Assets" %}
-
-        {% for item in value.all %}
-            {% if item.kind == 'image' %}
-                <div class="elementthumb">
-                    {{ item.img({width:120, height:80})|attr({class: 'field-diff-image'}) }}
-                </div>
-            {% endif %}
-            {{ item.title }}
-
-
-        {% endfor %}
-
-    {% case "craft\\fields\\Entries"
-        or "craft\\fields\\Categories"
-        or "craft\\fields\\Tags" %}
-
-        {% for item in value.all %}
-            {{ item.title }}<br>
-        {% endfor %}
-
-    {% case "craft\\fields\\Users" %}
-
-        {% for item in value.all %}
-            {{ item.fullName }}<br>
-        {% endfor %}
-
-    {% case "craft\\fields\\Date" %}
-        {% if value %}
-            {% if field.showTime %}
-                {% if field.showTimeZone %}
-                    {{ value|datetime(null, value.getTimeZone()) }}
-                    {{ value.getTimezone().getName() }}
-                    <br>
-                    {{ value|datetime }} {{ 'System Time Zone'|t }} ({{ craft.app.timeZone }})
-                {% else %}
-                    {{ value|datetime }}
-                {% endif %}
-            {% else %}
-                {{ value|date }}
-            {% endif %}
-        {% endif %}
-
-    {% case "craft\\fields\\Time" %}
-        {{ value ? value|time('short') }}
-
-    {% case "craft\\fields\\Dropdown" %}
-        {{ value.label }}
-
-    {% case "craft\\fields\\MultiSelect" or "craft\\fields\\Checkboxes" %}
-        {% for option in value %}
-            {{ option.label }}
-        {% endfor %}
-
-    {% case "craft\\fields\\Lightswitch" %}
-        {% if value %}
-            {{ field.onLabel ?: 'On' }}
-        {% else %}
-            {{ field.offLabel ?: 'Off' }}
-        {% endif %}
-
-    {% case "craft\\fields\\Table" %}
-
-        {% for row in value %}
-            <h3>Row {{ loop.index }}</h3>
-            {% for col in field.columns %}
-                {{ col.heading }}: {{ col.type == 'date' ? row[col.handle]|date : row[col.handle] }}<br>
-            {% endfor %}
-        {% endfor %}
-
-    {% default %}
-        {% if value is iterable %}
-            <pre>{{ dump(value) }}</pre>
-        {% else %}
-            {{ value }}
-        {% endif %}
-
-
-    {% endswitch %}
-{% endmacro %}
 

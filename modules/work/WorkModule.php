@@ -19,6 +19,7 @@ use modules\work\behaviors\WorkEntryBehavior;
 use modules\work\widgets\MyProvisionsalDraftsWidget;
 use yii\base\Event;
 use yii\base\Module;
+use const DIRECTORY_SEPARATOR;
 
 class WorkModule extends Module
 {
@@ -43,6 +44,7 @@ class WorkModule extends Module
             View::class,
             View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function(RegisterTemplateRootsEvent $event) {
             $event->roots['work'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
+            $event->roots['customwork'] = Craft::parseEnv('@templates') . DIRECTORY_SEPARATOR . '_work';
         }
         );
 
