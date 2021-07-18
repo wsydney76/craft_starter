@@ -247,17 +247,27 @@
 
         {% for item in value.all %}
             {% if item.kind == 'image' %}
-                {{ item.img({height:100}) }}
-            {% else %}
-                {{ item.title }}
+                <div class="elementthumb">
+                    {{ item.img({width:120, height:80})|attr({class: 'field-diff-image'}) }}
+                </div>
             {% endif %}
+            {{ item.title }}
+
 
         {% endfor %}
 
-    {% case "craft\\fields\\Entries" %}
+    {% case "craft\\fields\\Entries"
+        or "craft\\fields\\Categories"
+        or "craft\\fields\\Tags" %}
 
         {% for item in value.all %}
             {{ item.title }}<br>
+        {% endfor %}
+
+    {% case "craft\\fields\\Users" %}
+
+        {% for item in value.all %}
+            {{ item.fullName }}<br>
         {% endfor %}
 
     {% case "craft\\fields\\Date" %}
@@ -275,6 +285,9 @@
                 {{ value|date }}
             {% endif %}
         {% endif %}
+
+    {% case "craft\\fields\\Time" %}
+        {{ value ? value|time('short') }}
 
     {% case "craft\\fields\\Dropdown" %}
         {{ value.label }}

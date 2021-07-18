@@ -1,9 +1,8 @@
 <?php
 return [
-    'msg_draftwarningone' => 'Offene Entwurf:',
-    'msg_draftwarningmultiple' => 'Offene Entwürfe:',
-    'msg_provisionaldraftwarningone' => 'Offene Bearbeitung:',
-    'msg_provisionaldraftwarningmultiple' => 'Offene Bearbeitungen',
+
+    '{count,plural,=1{Open draft} other{Open drafts}}' => '{count,plural,=1{Offener Entwurf} other{Offene Entwürfe}}',
+    '{count,plural,=1{Open edit} other{Open edits}}' => '{count,plural,=1{Offene Bearbeitung} other{Offene Bearbeitungen}}',
 
     'Author' => 'Autor',
     'Compare Draft with Current' => 'Vergleiche Entwurf mit Aktuell',

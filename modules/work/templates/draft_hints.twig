@@ -29,7 +29,7 @@
     {% set textMultiple = 'msg_draftwarningmultiple'|t('work') %}
 
     <div class="meta read-only warning">
-        <p>{{ drafts|length == 1 ? textOne : textMultiple }}</p>
+        <p>{{ '{count,plural,=1{Open draft} other{Open drafts}}'|t('work', {count: drafts|length}) }}:</p>
         <div class="flex flex-wrap">
             {% for draft in drafts %}
                 {% set canEdit = (draft.creatorId == currentUser.id or currentUser.can(draftPermission)) %}
@@ -78,11 +78,8 @@
 {% set drafts = query.all %}
 {% if drafts %}
 
-    {% set textOne = 'msg_provisionaldraftwarningone'|t('work') %}
-    {% set textMultiple = 'msg_provisionaldraftwarningmultiple'|t('work') %}
-
     <div class="meta read-only warning">
-        <p>{{ drafts|length == 1 ? textOne : textMultiple }}</p>
+        <p>{{ '{count,plural,=1{Open edit} other{Open edits}}'|t('work', {count: drafts|length}) }}:</p>
         <div class="flex flex-wrap">
             {% for draft in drafts %}
                 {% set user = craft.users.id(draft.creatorId).one %}
@@ -201,6 +198,10 @@ if (window.draftEditor) {
     display: flex;
     width: 100%;
     justify-content: space-between;
+}
+
+.field-diff-image {
+    border-radius: 3px;
 }
 
 .field-diff .matrixblock > .titlebar {
