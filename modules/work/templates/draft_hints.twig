@@ -1,12 +1,25 @@
 {% set draftPermission = 'editpeerentrydrafts:' ~ entry.section.uid %}
 
-{% if entry.isCanonical %}
-    <div id="draft-new" style="display:none">
-        <button type="button" class="btn" onclick="location.reload()">
-            {{ 'Enable compare with Current'|t('work') }}
+{# Compare opened draft #}
+<div class="compare-current">
+    {% if  entry.isCanonical %}
+        <div id="draft-new" style="display:none">
+            <button type="button" class="btn"
+                    onclick="compare(-1, {{ entry.siteId }}, 1)">
+                {{ 'Compare Edited with Current'|t('work') }}
+            </button>
+        </div>
+    {% else %}
+        <button type="button" class="btn"
+                onclick="compare({{ entry.draftId }}, {{ entry.siteId }}, {{ entry.isProvisionalDraft() ?: 0 }})">
+            {% if entry.isProvisionalDraft() %}
+                {{ 'Compare Edited with Current'|t('work') }}
+            {% else %}
+                {{ 'Compare Draft with Current'|t('work') }}
+            {% endif %}
         </button>
-    </div>
-{% endif %}
+    {% endif %}
+</div>
 
 {# Show existing drafts --------------------------------------------------------------------- #}
 
@@ -47,12 +60,7 @@
                         class: ['btn', 'drafts-warning', 'drafts-noteditable'],
                         title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
                         text: "#{draft.draftName}",
-                        onclick:"compare('#{ cpUrl('work/compare', {
-                            id: draft.id,
-                            siteId: draft.siteId,
-                            isDraft: draft.isDraft,
-                            isProvisionalDraft: draft.isProvisionalDraft()
-                        }) }')"
+                        onclick:"compare(#{ draft.draftId }, #{ draft.siteId }, #{ draft.isProvisionalDraft() ?: 0})"
                     }) }}
                 {% endif %}
             {% endfor %}
@@ -89,12 +97,7 @@
                         class: ['btn', 'drafts-warning', 'drafts-noteditable'],
                         title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
                         text: "#{user.fullName} #{draft.dateUpdated|date}",
-                        onclick:"compare('#{ cpUrl('work/compare', {
-                            id: draft.id,
-                            siteId: draft.siteId,
-                            isDraft: draft.isDraft,
-                            isProvisionalDraft: draft.isProvisionalDraft()
-                        }) }')"
+                        onclick:"compare(#{ draft.draftId }, #{ draft.siteId }, #{ draft.isProvisionalDraft()})"
                     }) }}
                 {% endif %}
             {% endfor %}
@@ -103,31 +106,21 @@
 
 {% endif %}
 
-{# Compare opened draft #}
-{% if not entry.isCanonical %}
-    <div>
-        <button type="button" class="btn compare-btn"
-                onclick="compare('{{ cpUrl('work/compare', {
-                    id: entry.id,
-                    siteId: entry.siteId,
-                    isDraft: entry.isDraft,
-                    isProvisionalDraft: entry.isProvisionalDraft()
-                }) }}')">
-            {% if entry.isProvisionalDraft() %}
-                {{ 'Compare Edited with Current'|t('work') }}
-            {% else %}
-                {{ 'Compare Draft with Current'|t('work') }}
-            {% endif %}
-
-
-        </button>
-    </div>
-{% endif %}
+{# Separate js tag because twig stuff will break PhpStorms syntax check #}
+{% js %}
+compareUrl = "{{ cpUrl('work/compare') }}"
+newDraftId = -1
+{% endjs %}
 
 {% js %}
 // https://github.com/craftcms/cms/pull/8017
-function compare(url) {
-    var content = $.get(url, function(data) {
+function compare(draftId, siteId, isProvisionalDraft) {
+
+    if (draftId == -1)
+        draftId = newDraftId
+
+    url = `${compareUrl}?draftId=${draftId}&siteId=${siteId}&isProvisionalDraft=${isProvisionalDraft}`
+    $.get(url, function(data) {
             var slideout = new Craft.Slideout(data, {
                 containerAttributes: {class: 'compare-container'}
             });
@@ -139,6 +132,7 @@ function compare(url) {
 
 if (window.draftEditor) {
     window.draftEditor.on('createProvisionalDraft', function() {
+        newDraftId = window.draftEditor.settings.draftId
         $('#draft-new').css('display', '')
     });
 
@@ -217,7 +211,7 @@ if (window.draftEditor) {
     color: red !important;
 }
 
-.transfer-form, .transfer-history {
+.transfer-form, .transfer-history, .compare-current {
     margin-bottom: 24px;
 }
 

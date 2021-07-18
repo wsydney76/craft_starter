@@ -1,15 +1,10 @@
 {# @var transferHistory \modules\work\records\TransferHistoryRecord #}
-
-{% set id = craft.app.request.requiredQueryParam('id') %}
 {% set siteId = craft.app.request.requiredQueryParam('siteId') %}
-{% set isDraft = craft.app.request.requiredQueryParam('isDraft', false) %}
-{% set isProvisionalDraft = craft.app.request.requiredQueryParam('isProvisionalDraft', false) %}
+{% set draftId = craft.app.request.requiredQueryParam('draftId') %}
+{% set isProvisionalDraft = craft.app.request.requiredQueryParam('isProvisionalDraft', 0) %}
 
-{% if isProvisionalDraft %}
-    {% set entry = craft.entries.id(id).drafts(true).anyStatus().provisionalDrafts(true).siteId(siteId).one %}
-{% else %}
-    {% set entry = craft.entries.id(id).drafts(true).anyStatus().siteId(siteId).one %}
-{% endif %}
+{% set entry = craft.entries.draftId(draftId).provisionalDrafts(isProvisionalDraft).siteId(siteId).anyStatus().one %}
+
 
 {% if not entry %}
     {% exit 404 %}
@@ -51,7 +46,6 @@
             {% endfor %}
         </div>
     {% endif %}
-
 {% endif %}
 
 <h1>
