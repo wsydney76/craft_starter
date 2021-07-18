@@ -1,23 +1,21 @@
-{% import 'work/compare/macros.twig' as lib %}
-
 {% if entry.title != canonicalEntry.title %}
     <div class="field-diff">
         <h2>{{ 'Title'|t('work') }}</h2>
-        {{ lib.attrDiff(entry.title, canonicalEntry.title) }}
+        {{ _self.attrDiff(entry.title, canonicalEntry.title) }}
     </div>
 {% endif %}
 
 {% if entry.slug != canonicalEntry.slug %}
     <div class="field-diff">
         <h2>{{ 'Slug'|t('work') }}</h2>
-        {{ lib.attrDiff(entry.slug, canonicalEntry.slug) }}
+        {{ _self.attrDiff(entry.slug, canonicalEntry.slug) }}
     </div>
 {% endif %}
 
 {% if entry.authorId != canonicalEntry.authorId %}
     <div class="field-diff">
         <h2>{{ 'Author'|t('work') }}</h2>
-        {{ lib.attrDiff(entry.author.fullName, canonicalEntry.author.fullName) }}
+        {{ _self.attrDiff(entry.author.fullName, canonicalEntry.author.fullName) }}
     </div>
 {% endif %}
 
@@ -26,7 +24,7 @@
 {% if date != date2 %}
     <div class="field-diff">
         <h2>{{ 'Post Date'|t('work') }}</h2>
-        {{ lib.attrDiff(date, date2) }}
+        {{ _self.attrDiff(date, date2) }}
     </div>
 {% endif %}
 
@@ -35,13 +33,24 @@
 {% if date != date2 %}
     <div class="field-diff">
         <h2>{{ 'Expiry Date'|t('work') }}</h2>
-        {{ lib.attrDiff(date, date2) }}
+        {{ _self.attrDiff(date, date2) }}
     </div>
 {% endif %}
 
 {% if entry.status != canonicalEntry.status %}
     <div class="field-diff">
         <h2>{{ 'Status'|t('work') }}</h2>
-        {{ lib.attrDiff(entry.status, canonicalEntry.status) }}
+        {{ _self.attrDiff(entry.status, canonicalEntry.status) }}
     </div>
 {% endif %}
+
+{% macro attrDiff(value, value2) %}
+    {% embed 'work/compare/columns.twig' %}
+        {% block left %}
+            {{ value }}
+        {% endblock %}
+        {% block right %}
+            {{ value2 }}
+        {% endblock %}
+    {% endembed %}
+{% endmacro %}
