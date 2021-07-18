@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0-beta.1
+* Update to Craft 3.7
+* Replaced module 'drafts' with 'work', that reflects workflow changes in 3.7
+
 ## 1.9.0
 * Updates to Craft 3.6.17 / Embedded Assets 2.7.0
 * Updates Alpine JS to 3.0
