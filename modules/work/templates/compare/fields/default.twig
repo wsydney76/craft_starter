@@ -1,2 +1,13 @@
-{% import 'work/compare/macros.twig' as lib %}
-{{ lib.valueDiff(field, value, value2) }}
+{% embed 'work/compare/columns.twig' %}
+    {% block left %}
+        {% include 'work/compare/display_value.twig' with {
+            field, value
+        } only %}
+    {% endblock %}
+    {% block right %}
+        {% include 'work/compare/display_value.twig' with {
+            field, value: canonicalValue
+        } only %}
+    {% endblock %}
+{% endembed %}
+

@@ -1,11 +1,14 @@
-{% import 'work/compare/macros.twig' as lib %}
-
 {# @var transferHistory \modules\work\records\TransferHistoryRecord #}
-{% set siteId = craft.app.request.requiredQueryParam('siteId') %}
 {% set draftId = craft.app.request.requiredQueryParam('draftId') %}
+{% set siteId = craft.app.request.requiredQueryParam('siteId') %}
 {% set isProvisionalDraft = craft.app.request.requiredQueryParam('isProvisionalDraft', 0) %}
 
-{% set entry = craft.entries.draftId(draftId).provisionalDrafts(isProvisionalDraft).siteId(siteId).anyStatus().one %}
+{% set entry = craft.entries
+    .draftId(draftId)
+    .provisionalDrafts(isProvisionalDraft)
+    .siteId(siteId)
+    .anyStatus()
+.one %}
 
 
 {% if not entry %}
@@ -14,19 +17,26 @@
 
 {% set canonicalEntry = entry.canonical %}
 
-{% set user = craft.users.id(entry.creatorId).one %}
 <p>
+    {% set user = craft.users.id(entry.creatorId).one %}
     {{ entry.draftName }}:
     {{ 'Draft created by'|t('work') }} {{ user ? user.fullName : entry.creatorId }}, {{ 'last updated'|t('work') }}
     : {{ entry.dateUpdated|datetime }}
 </p>
 
 {% include 'work/compare/transfer_provisionalDraft.twig' with {
-   entry
+    entry
 } only %}
 
 <h1>
-    {{ lib.attrDiff('Edits'|t('work'), 'Current'|t('work')) }}
+    {% embed 'work/compare/columns.twig' %}
+        {% block left %}
+            {{ 'Edits'|t('work') }}
+        {% endblock %}
+        {% block right %}
+            {{ 'Current'|t('work') }}
+        {% endblock %}
+    {% endembed %}
 </h1>
 
 {# Compare default attributes #}
@@ -36,6 +46,9 @@
 
 
 {# Compare custom fields #}
-{{ lib.elementDiff(entry, canonicalEntry) }}
+{% include 'work/compare/element_diff.twig' with {
+    element: entry, canonicalElement: canonicalEntry
+} only %}
+
 
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0-beta.1
+## 2.0-beta.x
 * Update to Craft 3.7
 * Replaced module 'drafts' with 'work', that reflects workflow changes in 3.7
 

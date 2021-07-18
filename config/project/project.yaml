@@ -1,6 +1,6 @@
 assets:
   tempVolumeUid: 35c3b3f5-30e7-4780-9ae1-286ee8bd275e # Temporary Uploads
-dateModified: 1626606036
+dateModified: 1626611652
 email:
   fromEmail: $EMAIL_ADDRESS
   fromName: $EMAIL_SENDER
@@ -32,6 +32,7 @@ meta:
     4d466365-d4d6-4da1-b35a-009a6fca474c: 'Public Schema' # Public Schema
     4f4d2410-e8bd-4bef-9962-167fac851984: Features # Features
     6c2c7c89-c2ff-4ace-a3e6-aeddab27ab7b: Documents # Documents
+    6d263498-0b0f-4b80-ac04-958b449ac869: Heading # Heading
     6e033437-688d-40c5-b0f3-fb19a4084bd2: Color1 # Color1
     6e85df5a-9848-47e6-98f8-728b28c8f205: Gallery # Gallery
     7a11b052-f8c9-46d7-8bb4-7c9a3916200c: Image # Image
@@ -57,6 +58,7 @@ meta:
     81dfb777-1307-40c9-ad9a-7d84f1c835ed: DateTime2 # DateTime2
     90b94f80-c868-4c22-8bda-3abd94d99530: 'Gallery Thumbnail' # Gallery Thumbnail
     91e82c8e-91b5-456d-a06b-bd9e86bb5059: Entries # Entries
+    092d4c96-b172-45d5-92ab-d91c8b60a8a6: Date1 # Date1
     97e0b749-86e3-49f1-918e-9b88758928f4: English # English
     99cbe848-2d62-42d0-ad15-948062a7561f: 'User Photos' # User Photos
     133bba22-df33-4432-a49f-198e9c071f22: Display # Display
@@ -72,6 +74,7 @@ meta:
     8136d7e9-1a74-464d-aef2-3a4f91a5cdda: Images # Images
     29984fa1-b01d-42e8-80e8-6983cc5a498c: Entries # Entries
     9824416f-f0bf-481a-91dc-b14b70dfab25: Photo # Photo
+    22733645-b85a-49e7-8c69-a5e02ec8993c: Images # Images
     a6c330ac-aa61-44e4-a5fe-61b35e4eeb36: Display # Display
     a6d13a9f-d4ed-41e5-be7f-c93dcb679633: Text # Text
     ae7d91c8-8743-46bb-a954-438a27946b97: 'Primary Navigation' # Primary Navigation
