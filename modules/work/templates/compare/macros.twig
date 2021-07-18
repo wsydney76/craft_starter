@@ -1,0 +1,80 @@
+{% macro elementDiff(element, element2, level = 1) %}
+    {% from _self import fieldDiff %}
+    {% for field in element.fieldLayout.fields %}
+        {{ fieldDiff(element, element2, field, level) }}
+    {% endfor %}
+{% endmacro %}
+
+
+{% macro fieldDiff(element, element2, field, level = 1) %}
+    {% if element.isFieldModified(field.handle) %}
+        <div class="field-diff field-diff-level-{{ level }}">
+
+            <h2>{{ field.name == '__blank__' ? field.handle|capitalize : field.name|t }}</h2>
+
+            {% set value = element.fieldValue(field.handle) %}
+            {% set value2 = element2.fieldValue(field.handle) %}
+
+            {% set template = className(field)|replace({'\\':'_'}) %}
+
+            {% include [
+                "work/compare/fields/#{template}",
+                "customwork/compare/fields/#{template}",
+                "work/compare/fields/default"] with {
+                field, value, value2
+            } only %}
+
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro blockContent(block, count = 9999) %}
+    {% from _self import fieldValue %}
+    {% for field in block.fieldLayout.fields %}
+        {% if loop.index <= count %}
+            <div class="field-diff field-diff-level-1">
+                <h2>{{ field.name }}</h2>
+                {{ fieldValue(field, block.fieldValue(field.handle)) }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+
+{% macro attrDiff(value, value2) %}
+    <div class="field-diff-table">
+        <div>
+            {{ value }}
+        </div>
+        <div>
+            {{ value2 }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro valueDiff(field, value, value2) %}
+    {% from _self import fieldValue %}
+    <div class="field-diff-table">
+        <div>
+            {{ fieldValue(field, value) }}
+        </div>
+        <div>
+            {{ fieldValue(field, value2) }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro fieldValue(field, value) %}
+    {% set template = className(field)|replace({'\\':'_'}) %}
+
+    {% include [
+        "work/compare/fieldvalue/#{template}",
+        "customwork/compare/fieldvalue/#{template}",
+        "work/compare/fieldvalue/default"] with {
+        field, value
+    } only %}
+
+{% endmacro %}
+

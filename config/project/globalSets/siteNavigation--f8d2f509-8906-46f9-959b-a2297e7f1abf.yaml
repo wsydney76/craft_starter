@@ -29,3 +29,4 @@ fieldLayouts:
         sortOrder: 2
 handle: siteNavigation
 name: 'Site Navigation'
+sortOrder: 3

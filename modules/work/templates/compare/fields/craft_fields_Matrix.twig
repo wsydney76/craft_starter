@@ -1,0 +1,64 @@
+{% import 'work/compare/macros.twig' as lib %}
+
+{% set draftBlocks = value.anyStatus().all %}
+{% set currentBlocks = value2.anyStatus().all %}
+
+{% for block in draftBlocks %}
+    {% set canonicalBlock = block.canonical %}
+    {% set blockIsNew = canonicalBlock.id == block.id %}
+
+    {% set blockHasChanged = false %}
+    {% set blockHasMoved = block.sortOrder != canonicalBlock.sortOrder %}
+    {% set blockStatusChanged = block.status != canonicalBlock.status %}
+
+    {% for field in block.fieldLayout.fields %}
+        {% if block.isFieldModified(field.handle) %}
+            {% set blockHasChanged = true %}
+        {% endif %}
+    {% endfor %}
+
+    {% if blockIsNew or blockHasChanged or blockHasMoved or blockStatusChanged %}
+        <div class="matrixblock field-diff-block">
+            <div class="titlebar field-diff-blockname {{ blockIsNew ? 'field-diff-new' }}">
+                <div>
+                    {{ block.type.name|t }}
+                    {{ blockIsNew ? " - #{'New'|t('work')}" }}
+                    {{ blockHasMoved and not blockHasChanged and not blockIsNew ? " - #{'Moved without changes'|t('work')}" }}
+                    {{ blockStatusChanged ? "- #{'Status changed'|t('work')} from #{block.status|t('work')} to #{canonicalBlock.status|t('work')}" }}
+                </div>
+                <div>
+                    {{ 'Order'|t('work') }}: {{ 'Draft'|t('work') }}: {{ block.sortOrder }} /
+                    {{ 'Current'|t('work') }}: {{ canonicalBlock.id != block.id ? canonicalBlock.sortOrder : '-' }}
+                </div>
+            </div>
+
+            {% if blockIsNew %}
+                {{ lib.blockContent(block) }}
+            {% elseif blockHasMoved and not blockHasChanged %}
+                {{ lib.blockContent(block, 1) }}
+            {% elseif blockStatusChanged and not blockHasChanged %}
+                {{ lib.blockContent(block) }}
+            {% else %}
+                {{ lib.elementDiff(block, canonicalBlock, 1) }}
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endfor %}
+
+{# Deleted blocks #}
+{% set draftBlocksCanonicalIds = draftBlocks|map(b => b.canonicalId) %}
+{% for block in currentBlocks if block.id not in draftBlocksCanonicalIds %}
+    <div class="matrixblock field-diff-block">
+        <div class="titlebar field-diff-blockname field-diff-deleted">
+            <div>
+                {{ block.type.name }} - {{ 'Deleted'|t('work') }}
+            </div>
+            <div>
+                {{ 'Order'|t('work') }}: {{ 'Draft'|t }}: {{ block.sortOrder }}
+                / {{ 'Deleted'|t('work') }}
+            </div>
+        </div>
+        {{ lib.blockContent(block) }}
+    </div>
+{% endfor %}

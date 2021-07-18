@@ -1,0 +1,71 @@
+field: 58b2e318-26cc-47b8-bee2-81369731d72f # Body Content
+fieldLayouts:
+  4ebf0ac1-e23a-498e-af11-142f967688fd:
+    tabs:
+      -
+        elements:
+          -
+            fieldUid: f27f4038-975b-41d2-a58a-7e78ed2000f5 # __blank__
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+        name: Content
+        sortOrder: 1
+fields:
+  f27f4038-975b-41d2-a58a-7e78ed2000f5: # __blank__
+    columnSuffix: null
+    contentColumnType: text
+    fieldGroup: null
+    handle: features
+    instructions: ''
+    name: __blank__
+    searchable: true
+    settings:
+      addRowLabel: 'Add a feature'
+      columnType: text
+      columns:
+        __assoc__:
+          -
+            - col1
+            -
+              __assoc__:
+                -
+                  - heading
+                  - Title
+                -
+                  - handle
+                  - title
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - singleline
+          -
+            - col2
+            -
+              __assoc__:
+                -
+                  - heading
+                  - Value
+                -
+                  - handle
+                  - value
+                -
+                  - width
+                  - ''
+                -
+                  - type
+                  - singleline
+      maxRows: ''
+      minRows: ''
+    translationKeyFormat: null
+    translationMethod: language
+    type: craft\fields\Table
+handle: features
+name: Features
+sortOrder: 8

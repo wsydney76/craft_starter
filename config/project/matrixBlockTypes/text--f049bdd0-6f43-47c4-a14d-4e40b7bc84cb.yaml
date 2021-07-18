@@ -26,6 +26,7 @@ fieldLayouts:
         sortOrder: 1
 fields:
   4230d05c-5e66-4718-8fa2-0371dc10d9cb: # Display
+    columnSuffix: null
     contentColumnType: string
     fieldGroup: null
     handle: display
@@ -83,6 +84,7 @@ fields:
     translationMethod: none
     type: craft\fields\Dropdown
   a6d13a9f-d4ed-41e5-be7f-c93dcb679633: # Text
+    columnSuffix: null
     contentColumnType: text
     fieldGroup: null
     handle: text

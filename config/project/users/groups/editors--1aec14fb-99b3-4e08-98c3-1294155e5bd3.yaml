@@ -21,10 +21,8 @@ permissions:
   - 'deletefilesandfoldersinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
   - 'deletefilesandfoldersinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
   - 'deletefilesandfoldersinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
-  - 'deletepeerentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'deletepeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'deletepeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'deletepeerentrydrafts:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'deletepeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'deletepeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
   - 'deletepeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
@@ -43,7 +41,6 @@ permissions:
   - 'editpeerentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'editpeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'editpeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'editpeerentrydrafts:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'editpeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'editpeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
   - 'editpeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
@@ -61,10 +58,8 @@ permissions:
   - 'publishentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'publishentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'publishentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'publishpeerentries:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'publishpeerentries:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'publishpeerentries:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
-  - 'publishpeerentrydrafts:09f97fdd-45fe-4221-982a-a2077c8460b1' # Page
   - 'publishpeerentrydrafts:0d69ffe4-360e-4d04-ac30-af0e4381b6ed' # Post
   - 'publishpeerentrydrafts:338d4897-8545-48cd-bd31-951a6ed52197' # Topic
   - 'replacefilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
@@ -82,6 +77,7 @@ permissions:
   - 'saveassetinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
   - 'saveassetinvolume:99cbe848-2d62-42d0-ad15-948062a7561f' # User Photos
   - 'saveassetinvolume:cbbf12d2-97db-4750-8f2d-ea5a5ca1f975' # Embeds
+  - transferprovisionaldrafts
   - 'viewpeerfilesinvolume:2f4c2da0-9bf2-47da-a2fb-b13bad08739c' # Documents
   - 'viewpeerfilesinvolume:35c3b3f5-30e7-4780-9ae1-286ee8bd275e' # Temporary Uploads
   - 'viewpeerfilesinvolume:8136d7e9-1a74-464d-aef2-3a4f91a5cdda' # Images
