@@ -56,7 +56,9 @@ A simple information model to play around with is pre configured, just click thr
   * Embedded Assets. Embed videos, social media etc.
 * A user group `editors` with limited permissions. Add a user to it and see how simple the cp looks
 for non admins.
-* A 'Drafts' custom module, adding some usefull hints to make the drafts handling a bit easier for beginners.
+* A 'Work' custom module, that will show all active edits/draft for an entry, and lets you compare them with 
+the current version. It also lets you transfer a provisional draft from another user to your account 
+  (because people can get ill or go on vacation...) .
 
 ## Frontend
 
