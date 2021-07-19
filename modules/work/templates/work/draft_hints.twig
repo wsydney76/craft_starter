@@ -72,38 +72,39 @@
 
 
 {# Show existing provisional drafts --------------------------------------------------------------------- #}
+{% if currentUser.can('viewpeerprovisionaldrafts') %}
+    {% set query = craft.entries
+        .draftOf(entry.canonical)
+        .provisionalDrafts(true)
+        .id("not #{entry.id}")
+        .anyStatus()
+        .site('*')
+        .unique()
+        .preferSites([entry.site.handle])
+        .orderBy('dateUpdated desc') %}
 
-{% set query = craft.entries
-    .draftOf(entry.canonical)
-    .provisionalDrafts(true)
-    .id("not #{entry.id}")
-    .anyStatus()
-    .site('*')
-    .unique()
-    .preferSites([entry.site.handle])
-    .orderBy('dateUpdated desc') %}
+    {% set drafts = query.all %}
+    {% if drafts %}
 
-{% set drafts = query.all %}
-{% if drafts %}
-
-    <div class="meta read-only warning">
-        <p>{{ '{count,plural,=1{Open edit} other{Open edits}}'|t('work', {count: drafts|length}) }}:</p>
-        <div class="flex flex-wrap">
-            {% for draft in drafts %}
-                {% set user = craft.users.id(draft.creatorId).one %}
-                {% if user %}
-                    {{ tag('button', {
-                        type: 'button',
-                        class: ['btn', 'drafts-warning', 'drafts-noteditable'],
-                        title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
-                        text: "#{user.fullName} #{draft.dateUpdated|date}",
-                        onclick:"compare(#{ draft.draftId }, #{ draft.siteId }, #{ draft.isProvisionalDraft()})"
-                    }) }}
-                {% endif %}
-            {% endfor %}
+        <div class="meta read-only warning">
+            <p>{{ '{count,plural,=1{Open edit} other{Open edits}}'|t('work', {count: drafts|length}) }}:</p>
+            <div class="flex flex-wrap">
+                {% for draft in drafts %}
+                    {% set user = craft.users.id(draft.creatorId).one %}
+                    {% if user %}
+                        {{ tag('button', {
+                            type: 'button',
+                            class: ['btn', 'drafts-warning', 'drafts-noteditable'],
+                            title: draft.draftName ~ ' ' ~ (user ? user.fullName : 'n/a' ~ ' ') ~ draft.dateUpdated|date,
+                            text: "#{user.fullName} #{draft.dateUpdated|date}",
+                            onclick:"compare(#{ draft.draftId }, #{ draft.siteId }, #{ draft.isProvisionalDraft()})"
+                        }) }}
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
+    {% endif %}
 {% endif %}
 
 {# Separate js tag because twig stuff will break PhpStorms syntax check #}
@@ -145,6 +146,20 @@ if (window.draftEditor) {
     overflow-y: scroll;
 }
 
+.compare-container.slideout {
+    padding: 0px;
+}
+
+.compare-body {
+    padding: 24px;
+}
+
+.compare-heading {
+    padding: 12px 24px;
+    background-color: #E4EDF6;
+    font-weight: 600;
+}
+
 .drafts-warning {
     display: block;
     overflow: hidden;
@@ -170,18 +185,18 @@ if (window.draftEditor) {
     margin-left: 24px;
 }
 
-.field-diff-table {
+.field-diff-columns {
     display: flex;
 
 }
 
-.field-diff-table div {
+.field-diff-columns div {
     margin-right: 4px;
     width: 50%;
 }
 
-.field-diff-block {
-    margin-left: 14px;
+.field-diff h2 {
+    color: #596673;
 }
 
 .field-diff-blockname {
@@ -215,7 +230,7 @@ if (window.draftEditor) {
     margin-bottom: 24px;
 }
 
-.field-diff-table img {
+.field-diff-columns img {
     max-width: 200px !important;
 }
 
