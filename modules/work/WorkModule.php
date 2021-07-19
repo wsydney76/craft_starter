@@ -43,11 +43,10 @@ class WorkModule extends Module
         Event::on(
             View::class,
             View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function(RegisterTemplateRootsEvent $event) {
-            $event->roots['work'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates';
+            $event->roots['work'] = __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'work';
             $event->roots['customwork'] = Craft::parseEnv('@templates') . DIRECTORY_SEPARATOR . '_work';
         }
         );
-
 
         // Register translation category
         Craft::$app->i18n->translations['work'] = [
@@ -83,6 +82,9 @@ class WorkModule extends Module
             UserPermissions::class,
             UserPermissions::EVENT_REGISTER_PERMISSIONS, function(RegisterUserPermissionsEvent $event) {
             $event->permissions['Work Module'] = [
+                'viewpeerprovisionaldrafts' => [
+                    'label' => Craft::t('work', 'View provisional drafts of other users')
+                ],
                 'transferprovisionaldrafts' => [
                     'label' => Craft::t('work', 'Transfer other users provisional draft to own account')
                 ]
@@ -129,12 +131,14 @@ class WorkModule extends Module
                     $event->html .= '<span class="status active"></span>';
                 }
 
-                // Workaround because there is no ->draftCreator('not ...)
-                if ($hasOwnProvisionalDraft) {
-                    --$countProvisionalDrafts;
-                }
-                if ($countProvisionalDrafts) {
-                    $event->html .= '<span class="status"></span>';
+                if (Craft::$app->user->identity->can('viewpeerprovisionaldrafts')) {
+                    // Workaround because there is no ->draftCreator('not ...)
+                    if ($hasOwnProvisionalDraft) {
+                        --$countProvisionalDrafts;
+                    }
+                    if ($countProvisionalDrafts) {
+                        $event->html .= '<span class="status"></span>';
+                    }
                 }
             }
         });

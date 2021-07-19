@@ -9,8 +9,8 @@
         {% set template = className(field)|replace({'\\':'_'}) %}
 
         {% include [
-            "work/compare/fields/#{template}",
             "customwork/compare/fields/#{template}",
+            "work/compare/fields/#{template}",
             "work/compare/fields/default"] with {
             field, value, canonicalValue
         } only %}
