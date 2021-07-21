@@ -5,7 +5,9 @@ namespace modules\work;
 use Craft;
 use craft\base\Element;
 use craft\elements\Entry;
+use craft\elements\MatrixBlock;
 use craft\events\DefineBehaviorsEvent;
+use craft\events\DefineHtmlEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterElementTableAttributesEvent;
 use craft\events\RegisterTemplateRootsEvent;
@@ -16,6 +18,7 @@ use craft\services\Dashboard;
 use craft\services\UserPermissions;
 use craft\web\View;
 use modules\work\behaviors\WorkEntryBehavior;
+use modules\work\behaviors\WorkMatrixBehavior;
 use modules\work\widgets\MyProvisionsalDraftsWidget;
 use yii\base\Event;
 use yii\base\Module;
@@ -75,6 +78,11 @@ class WorkModule extends Module
             Entry::class,
             Entry::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
             $event->behaviors[] = WorkEntryBehavior::class;
+        });
+        Event::on(
+            MatrixBlock::class,
+            MatrixBlock::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
+            $event->behaviors[] = WorkMatrixBehavior::class;
         });
 
         // Create Permissions
@@ -142,5 +150,17 @@ class WorkModule extends Module
                 }
             }
         });
+
+        // Add hint in entry slideouts
+        Event::on(
+            Element::class,
+            Element::EVENT_DEFINE_SIDEBAR_HTML, function(DefineHtmlEvent $event) {
+            if ($event->sender instanceof Entry) {
+                $event->html = Craft::$app->view->renderTemplate('work/entry_hasdrafts.twig', [
+                        'entry' => $event->sender
+                    ]) . $event->html;
+            }
+        }
+        );
     }
 }

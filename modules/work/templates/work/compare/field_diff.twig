@@ -1,4 +1,4 @@
-{% if element.isFieldModified(field.handle) %}
+{% if element.isFieldModifiedForDiff(field, canonicalElement) %}
     <div class="field-diff field-diff-level-{{ level }}">
 
         <h2>{{ field.name == '__blank__' ? field.handle|capitalize : field.name|t }}</h2>

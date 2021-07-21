@@ -1,0 +1,13 @@
+{% if entry.isCanonical %}
+    {% set hasDrafts = craft.entries.draftOf(entry).anyStatus().exists() %}
+    {% if not hasDrafts %}
+        {% set hasDrafts = craft.entries.draftOf(entry).provisionalDrafts(true).anyStatus().exists() %}
+    {% endif %}
+    {% if hasDrafts %}
+        <div class="meta read-only warning">
+            {{ 'This entry has open drafts'|t('work') }}!
+            <a target="_blank" class="btn" title="Open the full edit page in a new tab"
+               href="{{ entry.cpEditUrl }}">{{ 'Open in new tab'|t('work') }}</a>
+        </div>
+    {% endif %}
+{% endif %}
