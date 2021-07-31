@@ -19,6 +19,9 @@ you select a different db prefix.
 the build in server, which can be started with `php craft serve` and will be 
   available at `http://localhost:8080`.
   
+* Check composer.json for custom plugin repositories, in case you want to install
+custom plugins from a different location.
+
 * Cd into your project directory and run `composer install`
 
 * Open `/config/Env.php` and edit the settings for your installation, especially the
