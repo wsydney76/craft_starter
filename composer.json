@@ -5,10 +5,11 @@
   "license": "Unlicense",
   "require": {
     "clubstudioltd/craft-asset-rev": "6.0.2",
-    "craftcms/cms": "3.7.4",
+    "craftcms/cms": "3.7.7",
     "craftcms/contact-form": "2.2.7",
     "doublesecretagency/craft-cpcss": "2.3.0",
-    "spicyweb/craft-embedded-assets": "2.7.0"
+    "spicyweb/craft-embedded-assets": "2.7.0",
+    "wsydney76/work": "^1.0"
   },
   "require-dev": {
     "yiisoft/yii2-shell": "^2.0.3"
@@ -38,5 +39,17 @@
       "@php craft migrate/all --interactive=0",
       "@php craft on"
     ]
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/wsydney76/work"
+    },
+    {
+      "type": "path",
+      "url": "e:/craft/plugins/plugins/*"
+    }
+  ]
 }

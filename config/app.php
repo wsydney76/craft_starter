@@ -18,17 +18,14 @@
  */
 
 use config\Env;
-use modules\work\WorkModule;
 use modules\main\MainModule;
 
 return [
     'id' => Env::APP_ID,
     'modules' => [
-        'main' => MainModule::class,
-        'work' => WorkModule::class
+        'main' => MainModule::class
     ],
     'bootstrap' => [
-       'main',
-       'work'
+       'main'
     ],
 ];
