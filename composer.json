@@ -1,6 +1,6 @@
 {
   "name": "wsydney76/craft_starter",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Simple multilingual project template for Craft CMS",
   "license": "Unlicense",
   "require": {
