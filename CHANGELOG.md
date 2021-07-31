@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0 2021-07-31
+
+* Update to Craft 3.7.7
+* Install 'work' functionality as plugin rather than as custom module. 
+
 ## 2.0.0 2021-07-19
 * Update to Craft 3.7
 * Replaced module 'drafts' with 'work', that reflects workflow changes in 3.7
