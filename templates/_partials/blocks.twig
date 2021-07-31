@@ -1,3 +1,6 @@
+{# Tailwind purge protect: block-display-left block-display-right #}
+{# Tailwind purge protect: block-button block-embed block-features block-gallery block-heading block-image block-quote block-text #}
+
 {% set blocks = query.all %}
 
 {% for block in blocks %}
@@ -6,9 +9,9 @@
     <div class="mb-8 block-display-{{ display }} block-{{ block.type }}" id="block-{{ block.id }}">
 
         {% include "_blocks/#{block.type}.twig" ignore missing with {
-            block:block,
+            block,
             index: loop.index,
-            display: display
+            display
         } only %}
 
     </div>
