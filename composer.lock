@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c67f2b3a0ce7f24bb634cb635b768d85",
+    "content-hash": "35a0c5758f6449643b0b58822248a248",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -5442,11 +5442,11 @@
         },
         {
             "name": "wsydney76/work",
-            "version": "1.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wsydney76/work",
-                "reference": "77267b9209f2f7ba245cddc92b4697881e4a1b68"
+                "reference": "15380dd09781ca7bbaae7486553f953f8e6cd156"
             },
             "require": {
                 "craftcms/cms": "^3.7.0"
@@ -5486,7 +5486,7 @@
                 "docs": "https://github.com/wsydney76/work/blob/master/README.md",
                 "issues": "https://github.com/wsydney76/work/issues"
             },
-            "time": "2021-07-28T09:04:40+00:00"
+            "time": "2021-07-31T11:01:07+00:00"
         },
         {
             "name": "yii2tech/ar-softdelete",
