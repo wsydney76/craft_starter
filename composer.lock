@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32db929ea212c57a521a2ba7aaa85759",
+    "content-hash": "daba192e5012cbd189f865d2df6fd848",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -400,11 +400,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "3.7.6",
+            "version": "3.7.7",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/adb3eb97347d8628dbec88a327334b60b223ac5e",
-                "reference": "adb3eb97347d8628dbec88a327334b60b223ac5e",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/87c6e788af4d463285d5cfd82f143596e4407ee3",
+                "reference": "87c6e788af4d463285d5cfd82f143596e4407ee3",
                 "shasum": ""
             },
             "require": {
@@ -488,7 +488,7 @@
                 "docs": "https://craftcms.com/docs/3.x/",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2021-07-27T14:45:51+00:00"
+            "time": "2021-07-30T00:45:40+00:00"
         },
         {
             "name": "craftcms/contact-form",
@@ -2400,11 +2400,11 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.3.4",
+            "version": "v5.3.6",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/ebd610dacd40d75b6a12bf64b5ccd494fc7d6ab1",
-                "reference": "ebd610dacd40d75b6a12bf64b5ccd494fc7d6ab1",
+                "url": "https://api.github.com/repos/symfony/console/zipball/51b71afd6d2dc8f5063199357b9880cea8d8bfe2",
+                "reference": "51b71afd6d2dc8f5063199357b9880cea8d8bfe2",
                 "shasum": ""
             },
             "require": {
@@ -2463,7 +2463,7 @@
                 "console",
                 "terminal"
             ],
-            "time": "2021-07-26T16:33:26+00:00"
+            "time": "2021-07-27T19:10:22+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2703,11 +2703,11 @@
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.23.0",
+            "version": "v1.23.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/24b72c6baa32c746a4d0840147c9715e42bb68ab",
-                "reference": "24b72c6baa32c746a4d0840147c9715e42bb68ab",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/16880ba9c5ebe3642d1995ab866db29270b36535",
+                "reference": "16880ba9c5ebe3642d1995ab866db29270b36535",
                 "shasum": ""
             },
             "require": {
@@ -2757,7 +2757,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2021-05-27T09:17:38+00:00"
+            "time": "2021-05-27T12:26:48+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
@@ -2886,11 +2886,11 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.23.0",
+            "version": "v1.23.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2df51500adbaebdc4c38dea4c89a2e131c45c8a1",
-                "reference": "2df51500adbaebdc4c38dea4c89a2e131c45c8a1",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9174a3d80210dca8daa7f31fec659150bbeabfc6",
+                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6",
                 "shasum": ""
             },
             "require": {
@@ -2939,7 +2939,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2021-05-27T09:27:20+00:00"
+            "time": "2021-05-27T12:26:48+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
@@ -3052,11 +3052,11 @@
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.23.0",
+            "version": "v1.23.1",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/eca0bf41ed421bed1b57c4958bab16aa86b757d0",
-                "reference": "eca0bf41ed421bed1b57c4958bab16aa86b757d0",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/1100343ed1a92e3a38f9ae122fc0eb21602547be",
+                "reference": "1100343ed1a92e3a38f9ae122fc0eb21602547be",
                 "shasum": ""
             },
             "require": {
@@ -3108,7 +3108,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2021-02-19T12:13:01+00:00"
+            "time": "2021-07-28T13:41:28+00:00"
         },
         {
             "name": "symfony/process",
@@ -3872,6 +3872,54 @@
             "time": "2021-01-23T09:55:10+00:00"
         },
         {
+            "name": "wsydney76/work",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wsydney76/work",
+                "reference": "77267b9209f2f7ba245cddc92b4697881e4a1b68"
+            },
+            "require": {
+                "craftcms/cms": "^3.7.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Work",
+                "handle": "work",
+                "hasCpSettings": false,
+                "hasCpSection": false,
+                "changelogUrl": "https://raw.githubusercontent.com/wsydney76/work/master/CHANGELOG.md",
+                "class": "wsydney76\\work\\Work"
+            },
+            "autoload": {
+                "psr-4": {
+                    "wsydney76\\work\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "wsydney76",
+                    "homepage": "https://github.com/wsydney76"
+                }
+            ],
+            "description": "Extend draft workflow",
+            "keywords": [
+                "cms",
+                "craft",
+                "craft-plugin",
+                "craftcms",
+                "drafts"
+            ],
+            "support": {
+                "docs": "https://github.com/wsydney76/work/blob/master/README.md",
+                "issues": "https://github.com/wsydney76/work/issues"
+            },
+            "time": "2021-07-28T09:04:40+00:00"
+        },
+        {
             "name": "yii2tech/ar-softdelete",
             "version": "1.0.4",
             "dist": {
@@ -4512,9 +4560,9 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
