@@ -2,9 +2,6 @@
   "namespaces": [
     {
       "path": "vendor/craftcms/cms/src/templates"
-    },
-    {
-      "path": "modules/work/templates"
     }
   ]
 }
