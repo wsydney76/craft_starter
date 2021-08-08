@@ -1,9 +1,10 @@
 # Changelog
 
-## 2.1.3 2021-08-08
+## 2.1.4 2021-08-08
 
 * Update to Craft 3.7.8
 * Dropped craft.bat, use php craft ... instead
+* Install work plugin via packagist
 
 ## 2.1.0 2021-07-31
 
