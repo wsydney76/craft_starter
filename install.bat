@@ -1,4 +1,4 @@
 @echo off
-.\craft install --interactive=0 --username=admin --password=password  --email=admin@starter.local  &&^
-.\craft index-assets/all  &&^
-.\craft migrate/up --interactive=0
+php craft install --interactive=0 --username=admin --password=password  --email=admin@starter.local  &&^
+php craft index-assets/all  &&^
+php craft migrate/up --interactive=0
