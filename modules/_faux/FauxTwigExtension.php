@@ -34,10 +34,8 @@ use craft\elements\Entry;
 use craft\elements\GlobalSet;
 use craft\elements\MatrixBlock;
 use craft\elements\Tag;
-use craft\elements\User;
 use craft\models\Site;
 use craft\web\twig\variables\Paginate;
-use craft\web\view;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
@@ -51,8 +49,6 @@ class FauxTwigExtension extends AbstractExtension implements GlobalsInterface
     public function getGlobals(): array
     {
         return [
-            // Craft Variable
-            'craft' => new CustomCraftVariable() ,
             // Craft Elements
             'element' => new Entry(),
             'asset' => new Asset(),
@@ -60,17 +56,13 @@ class FauxTwigExtension extends AbstractExtension implements GlobalsInterface
             'image' => new Asset(),
             'category' => new Category(),
             'tag' => new Tag(),
-            'entry' => new CustomEntry(),
-            'draft' => new CustomEntry(),
+            'entry' => new Entry(),
+            'draft' => new Entry(),
             'siteInfo' => new GlobalSet(),
             'siteNavigation' => new GlobalSet(),
-            // Misc. Craft globals
-            'currentUser' => new User(),
-            'currentSite' => new Site(),
-            'site' => new Site(),
-            'view' => new view(),
-            'pageInfo' => new Paginate(),
 
+            'site' => new Site(),
+            'pageInfo' => new Paginate(),
             'message' => new Submission(),
 
             // Commerce Elements
@@ -84,6 +76,7 @@ class FauxTwigExtension extends AbstractExtension implements GlobalsInterface
             'global_featuredImage' => '',
             'global_title' => '',
             'global_navCondition' => [],
+            'global_localizedElements' => [],
 
             // Third party globals
             //'seomatic' => new \nystudio107\seomatic\variables\SeomaticVariable(),
