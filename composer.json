@@ -9,7 +9,7 @@
     "craftcms/contact-form": "2.2.7",
     "doublesecretagency/craft-cpcss": "2.3.0",
     "spicyweb/craft-embedded-assets": "2.8.0",
-    "wsydney76/work": "^1.0"
+    "wsydney76/work": "^1.1"
   },
   "require-dev": {
     "yiisoft/yii2-shell": "^2.0.3"
@@ -39,17 +39,5 @@
       "@php craft migrate/all --interactive=0",
       "@php craft on"
     ]
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/wsydney76/work"
-    },
-    {
-      "type": "path",
-      "url": "e:/craft/plugins/plugins/*"
-    }
-  ]
+  }
 }
