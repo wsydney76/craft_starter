@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors')
 module.exports = {
     // https://youtrack.jetbrains.com/issue/WEB-50318
     // This "hack" ensures your IDE detects all normal Tailwind classes, while JIT is used when compiling the project.
@@ -13,11 +14,13 @@ module.exports = {
                 'base': '1.0625rem',
             },
             colors: {
-                'primary': '#243c5a',
-                'primary-dark': '#17173e',
+                'primary': '#13254B',
+                'primary-alt': '#337eca',
                 'light': '#f4f4f4',
                 'secondary': '#999999',
-                'secondary-dark': '#666666',
+                'secondary-alt': '#666666',
+                'info': colors.sky,
+                'warning': colors.red
             },
             height: {
                 '100': '25rem'
@@ -48,7 +51,8 @@ module.exports = {
 
     purge: {
         content: [
-            './templates/**/*.twig'
+            './templates/**/*.twig',
+            './templates/**/*.svg'
         ]
     }
 }

@@ -9,6 +9,7 @@
     "craftcms/contact-form": "2.2.7",
     "doublesecretagency/craft-cpcss": "2.3.0",
     "spicyweb/craft-embedded-assets": "2.8.0",
+    "vaersaagod/matrixmate": "1.2.7",
     "wsydney76/work": "^1.1"
   },
   "require-dev": {

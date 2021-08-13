@@ -9,6 +9,10 @@ return [
     'Send' => 'Senden',
     'Your message has been sent.' => 'Ihre Nachricht wurde gesendet.',
 
+    'Error validating entry in' => 'Eintrag hat noch Fehler in',
+    'Nesting of heading levels is wrong.' => 'Fehler in den Überschriftsebenen',
+    'h{level} cannot follow h{lastHeadingLevel}' => 'h{level} kann nicht auf h{lastHeadingLevel} folgen',
+
     'All Entries' => 'Alle Inhalte',
     'All' => 'Alle',
     'By' => 'Von',
