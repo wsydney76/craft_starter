@@ -6,17 +6,12 @@ use Craft;
 use craft\elements\Entry;
 use craft\events\DefineFieldLayoutElementsEvent;
 use craft\events\DefineRulesEvent;
-use craft\events\ModelEvent;
-use craft\helpers\ElementHelper;
 use craft\models\FieldLayout;
 use modules\main\fieldlayoutelements\NewRow;
-use modules\main\validators\BiographicalDateValidator;
 use modules\main\validators\BodyContentValidator;
-use modules\main\validators\CastValidator;
-use modules\main\validators\CurrentYearValidator;
-use modules\main\validators\StationValidator;
 use yii\base\Event;
 use yii\base\Module;
+use function implode;
 
 class MainModule extends Module
 {
@@ -56,26 +51,25 @@ class MainModule extends Module
         // Validate entries on all sites (fixes open Craft bug)
         Event::on(
             Entry::class,
-            Entry::EVENT_AFTER_VALIDATE, function($event) {
-
-            return; // TODO: fix! can cause infinite loop
+            Entry::EVENT_BEFORE_SAVE, function($event) {
 
             /** @var Entry $entry */
             $entry = $event->sender;
 
-            if ($entry->hasErrors()) {
-                return;
-            }
+            // TODO: Check conditionals
 
             if ($entry->resaving || $entry->propagating || $entry->scenario != Entry::STATUS_LIVE) {
                 return;
             }
 
+            $entry->validate();
+
+            if ($entry->hasErrors()) {
+                return;
+            }
+
             foreach ($entry->getLocalized()->all() as $localizedEntry) {
                 $localizedEntry->scenario = Entry::SCENARIO_LIVE;
-                if ($localizedEntry->hasErrors()) {
-                    break;
-                }
 
                 if (!$localizedEntry->validate()) {
                     $entry->addError(
@@ -83,7 +77,7 @@ class MainModule extends Module
                         Craft::t('site', 'Error validating entry in') .
                         ' "' . $localizedEntry->site->name . '". ' .
                         implode(' ', $localizedEntry->getErrorSummary(false)));
-                    //  $event->isValid = false;
+                    $event->isValid = false;
                 }
             }
         });
