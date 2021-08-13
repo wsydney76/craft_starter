@@ -58,6 +58,8 @@ class MainModule extends Module
             Entry::class,
             Entry::EVENT_AFTER_VALIDATE, function($event) {
 
+            return; // TODO: fix! can cause infinite loop
+
             /** @var Entry $entry */
             $entry = $event->sender;
 
