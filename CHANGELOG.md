@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.2.0 2021-08-13
+
+* Added Matrixmate plugin for better editor experience
+* Added some validations (experimental. If you run into problems, you can just comment them out in MainModule.php)
+* Warning/Information text styles
+* Fancier blue primary color...
+
 ## 2.1.4 2021-08-08
 
 * Update to Craft 3.7.8

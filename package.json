@@ -1,6 +1,6 @@
 {
   "name": "craftcms-starter",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "description": "Simple multilingual project template for Craft CMS",
   "main": "index.js",
