@@ -1,15 +1,33 @@
-{% if display == 'highlight' %}
-	<div class="bg-primary text-white text-lg leading-relaxed p-3">
+{% switch display ?? 'default' %}
+
+{% case "highlight" %}
+    <div class="bg-primary text-white text-lg leading-relaxed p-4 shadow-lg">
         {{ block.text|striptags }}
     </div>
-{% elseif display in ['left','right'] %}
-    <div class="rich-text bg-white px-4 py-1 shadow">
+{% case "information" %}
+    <div class="flex bg-info-200 border border-info-700 text-info-900 shadow-lg">
+        <div class="p-4">
+            {{ svg(parseEnv("@templates/_icons/information.svg")) }}
+        </div>
+        <div class="rich-text pr-4">
+            {{ block.text|striptags|parseRefs|md }}
+        </div>
+    </div>
+{% case "warning" %}
+    <div class="flex bg-warning-200 border border-warning-700 text-warning-900 shadow-lg">
+        <div class="p-4">
+            {{ svg(parseEnv("@templates/_icons/exclamation.svg")) }}
+        </div>
+        <div class="rich-text pr-4">
+            {{ block.text|striptags|parseRefs|md }}
+        </div>
+    </div>
+{% case "left" or "right" %}
+    <div class="rich-text bg-white px-4 py-1 shadow-lg">
         {{ block.text|striptags|parseRefs|md }}
     </div>
-{% else %}
+{% default %}
     <div class="rich-text">
         {{ block.text|striptags|parseRefs|md }}
     </div>
-{% endif %}
-
-
+{% endswitch %}

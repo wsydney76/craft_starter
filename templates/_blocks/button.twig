@@ -1,6 +1,6 @@
-{# Tailwind purge protect: bg-primary bg-secondary #}
+{# Tailwind purge protect: bg-primary bg-secondary hover:bg-primary-alt hover:bg-secondary-alt #}
 {% set entry = block.target.one %}
 {% if entry %}
     <a href="{{ entry.url }}"
-       class="{{ display in ['left','right'] ? 'w-64 text-center block' : 'inline-block' }} my-3 py-2 px-4 bg-{{ block.color }} text-white hover:bg-{{ block.color }}-dark hover:text-white  transition ease-in-out duration-300">{{ block.caption ?: entry.title }}</a>
+       class="{{ display in ['left','right'] ? 'w-64 text-center block' : 'inline-block' }} my-3 py-2 px-4 bg-{{ block.color }} text-white hover:bg-{{ block.color }}-alt hover:text-white  transition ease-in-out duration-300">{{ block.caption ?: entry.title }}</a>
 {% endif %}

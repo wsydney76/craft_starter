@@ -1,6 +1,6 @@
 assets:
   tempVolumeUid: 35c3b3f5-30e7-4780-9ae1-286ee8bd275e # Temporary Uploads
-dateModified: 1628429823
+dateModified: 1628859031
 email:
   fromEmail: $EMAIL_ADDRESS
   fromName: $EMAIL_SENDER
@@ -86,18 +86,18 @@ meta:
     9824416f-f0bf-481a-91dc-b14b70dfab25: Photo # Photo
     22733645-b85a-49e7-8c69-a5e02ec8993c: Images # Images
     a6c330ac-aa61-44e4-a5fe-61b35e4eeb36: Display # Display
-    a6d13a9f-d4ed-41e5-be7f-c93dcb679633: Text # Text
+    a6d13a9f-d4ed-41e5-be7f-c93dcb679633: __blank__ # __blank__
     ae7d91c8-8743-46bb-a954-438a27946b97: 'Primary Navigation' # Primary Navigation
     b026d20d-f781-469f-8c4c-5f5c65c66027: Target # Target
     b6d41688-97a9-4dc8-b5b0-34ced913037a: 'Radio 1' # Radio 1
     b40dbfe9-2815-4f06-8ec3-c20f2a587460: DateTime1 # DateTime1
-    bad8f5ab-fcf4-4fec-9ade-7652b14f376e: Level # Level
+    bad8f5ab-fcf4-4fec-9ade-7652b14f376e: __blank__ # __blank__
     bbbb120d-5d71-4e7c-a164-487e401c4f2c: Deutsch # Deutsch
     bc0e0972-fef4-42a5-96bd-e0e6f040f421: Embed # Embed
     bc485c8b-4a0c-4c30-816a-8bb295727b36: Text # Text
     bda0f4f2-6388-4569-99b9-8f89727f61ca: 'Topic Index' # Topic Index
     c4d63380-a55e-438d-9ec4-18f62fe8332b: 'Top Level Links' # Top Level Links
-    c7d0c14f-5533-4bdc-863d-cedbbb544960: Text # Text
+    c7d0c14f-5533-4bdc-863d-cedbbb544960: __blank__ # __blank__
     c9b0dd19-d915-4588-9485-2c42e30bf384: Color # Color
     c70f1891-1a5f-40de-b80f-fa25adec5c26: 'Topic Index' # Topic Index
     c6943610-b0b4-4588-88b9-c13480f83557: Caption # Caption
@@ -146,7 +146,7 @@ plugins:
     enabled: true
     schemaVersion: 2.0.0
     settings:
-      additionalCss: "html,body {\r\n  font-size: 15px;\r\n}\r\ninput.text, textarea.text, .text > input, .text > textarea, table.editable textarea, .selectize-text > .selectize-control > .selectize-input {\r\n  font-size: 16px;\r\n}\r\n#global-sidebar {\r\n background-color: #265077;\r\n}\r\n\r\n\r\n#main-form h2 {\r\n\tfont-size:17px;\r\n}\r\n\r\n.sidebar .heading span {\r\n  color: #264a6c;\r\n  font-size: 14px;\r\n  letter-spacing: 1px\r\n}\r\n\r\n.blocktype {\r\n\tfont-weight: bold;\r\n}\r\n"
+      additionalCss: "html,body {\r\n  font-size: 15px;\r\n}\r\ninput.text, textarea.text, .text > input, .text > textarea, table.editable textarea, .selectize-text > .selectize-control > .selectize-input {\r\n  font-size: 16px;\r\n}\r\n#global-sidebar {\r\n background-color: #13254B;\r\n}\r\n\r\n\r\n#main-form h2 {\r\n\tfont-size:17px;\r\n}\r\n\r\n.sidebar .heading span {\r\n  color: #264a6c;\r\n  font-size: 14px;\r\n  letter-spacing: 1px\r\n}\r\n\r\n.blocktype {\r\n\tfont-weight: bold;\r\n}\r\n"
       cssFile: ''
   embeddedassets:
     edition: standard
@@ -225,6 +225,10 @@ plugins:
         - youtu.be
         - youtube.com
         - youtube-nocookie.com
+  matrixmate:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   work:
     edition: standard
     enabled: true
