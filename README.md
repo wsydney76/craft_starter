@@ -29,10 +29,12 @@ database connection details and credentials, and your base url.
   
 * Run `php craft install` Enter your admin user infos and confirm all other questions as is.
 
-* Run `php craft migrate/all` and confirm all migrations. This will setup some basic translated content, a non admin user and preferences.
+* Run `php craft migrate/all` and confirm all migrations. This will setup some basic translated content, some images, a non admin user and preferences.
 
-* You may want to copy some images as a starting point to `/web/images` and run `php craft index-assets/all`
+* You may want to copy more images as a starting point to `/web/images` and run `php craft index-assets/all`
 to make them available for Craft.
+  
+* If you want to create some fake posts, run `php craft main/seed/create-posts <number=5>`.  
   
 ## Run it
 
