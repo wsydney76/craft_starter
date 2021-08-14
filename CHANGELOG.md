@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.3.0 2021-08-14
+
+* Migrations will now add some Pixabay images to the `images` volume and randomly set 
+featured images to all singles entries.
+  
+* User photos and an icon are also set.
+
+* You can seed some post entries by running `php craft main/seed/create-posts`
+
 ## 2.2.0 2021-08-13
 
 * Added Matrixmate plugin for better editor experience
